@@ -29,8 +29,3 @@
 .\objects\main.o: .\Library\stm32f10x_wwdg.h
 .\objects\main.o: .\Library\misc.h
 .\objects\main.o: .\Hardware\GPIO\GPIO.h
-.\objects\main.o: .\Hardware\UART\UART.h
-.\objects\main.o: D:\KSWJJ\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\main.o: .\Hardware\Motor\Motor.h
-.\objects\main.o: .\Hardware\PWM_Time\PWM_Time.h
-.\objects\main.o: .\Hardware\TRANCE\TRANCE.h

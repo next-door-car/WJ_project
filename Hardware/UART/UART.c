@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "UART.h"
-#include "DATA.h"
 
-
+char usart_RxPacket[100];				//定义接收数据包数组
+uint16_t usart_RxFlag;					//定义接收数据包标志位
+uint32_t data1;
+uint32_t data2;
 /**
   * 函    数：串口初始化
   * 参    数：无
@@ -82,6 +84,35 @@ void USART_SendArray(uint16_t *Array, uint16_t Length)
 	}
 }
 
+
+/**
+  * 函    数：次方函数（内部使用）
+  * 返 回 值：返回值等于X的Y次方
+  */
+uint32_t USART_Pow(uint32_t X, uint32_t Y)
+{
+	uint32_t Result = 1;	//设置结果初值为1
+	while (Y --)			//执行Y次
+	{
+		Result *= X;		//将X累乘到结果
+	}
+	return Result;
+}
+
+/**
+  * 函    数：串口发送数字
+  * 参    数：Number 要发送的数字，范围：0~4294967295
+  * 参    数：Length 要发送数字的长度，范围：0~10
+  * 返 回 值：无
+  */
+void USART_SendNumber(uint32_t Number, uint8_t Length)
+{
+	uint8_t i;
+	for (i = 0; i < Length; i ++)		//根据数字长度遍历数字的每一位
+	{
+		USART_SendByte(Number / USART_Pow(10, Length - i - 1) % 10 + '0');	//依次调用Serial_SendByte发送每位数字
+	}
+}
 /**
   * 函    数：串口发送一个字符串
   * 参    数：String 要发送字符串的首地址
@@ -168,6 +199,9 @@ void USART1_IRQHandler(void)
                                                                 //读取数据寄存器会自动清除此标志位
 	                                                            //如果已经读取了数据寄存器，也可以不执行此代码
 	}
+	
+   data1 = ((usart_RxPacket[1] - '0')*1000)+((usart_RxPacket[2] - '0')*100)+((usart_RxPacket[3] - '0')*10)+(usart_RxPacket[4] - '0');
+   data2 = ((usart_RxPacket[6] - '0')*1000)+((usart_RxPacket[7] - '0')*100)+((usart_RxPacket[8] - '0')*10)+(usart_RxPacket[9] - '0');
 }
 
 
