@@ -1,7 +1,10 @@
 #include "stm32f10x.h"                  // Device header
+#include <stdio.h>
+#include <stdarg.h>
 #include "UART.h"
-uint8_t usart_rxdata;
-uint8_t usart_rxflag;
+
+char usart_RxPacket[100];				//定义接收数据包数组
+uint16_t usart_RxFlag;					//定义接收数据包标志位
 /**
   * 函    数：串口初始化
   * 参    数：无
@@ -57,11 +60,26 @@ void USART_init(void){
   * 参    数：Byte 要发送的一个字节
   * 返 回 值：无
   */
-void USART_SendByte(uint8_t Byte)
+void USART_SendByte(uint16_t Byte)
 {
 	USART_SendData(USART1, Byte);		//将字节数据写入数据寄存器，写入后USART自动生成时序波形
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);	//等待发送完成
 	/*下次写入数据寄存器会自动清除发送完成标志位，故此循环后，无需清除标志位*/
+}
+
+/**
+  * 函    数：串口发送一个数组
+  * 参    数：Array 要发送数组的首地址
+  * 参    数：Length 要发送数组的长度
+  * 返 回 值：无
+  */
+void USART_SendArray(uint16_t *Array, uint16_t Length)
+{
+	uint16_t i;
+	for (i = 0; i < Length; i ++)		//遍历数组
+	{
+		USART_SendByte(Array[i]);		//依次调用Serial_SendByte发送每个字节数据
+	}
 }
 
 /**
@@ -85,22 +103,12 @@ void USART_SendString(char *String)
   */
 uint8_t USART_GetRxFlag(void)
 {
-	if (usart_rxflag == 1)			//如果标志位为1
+	if (usart_RxFlag == 1)			//如果标志位为1
 	{
-		usart_rxflag = 0;
+		usart_RxFlag = 0;
 		return 1;					//则返回1，并自动清零标志位
 	}
 	return 0;						//如果标志位为0，则返回0
-}
-
-/**
-  * 函    数：获取串口接收的数据
-  * 参    数：无
-  * 返 回 值：接收的数据，范围：0~255
-  */
-uint8_t USART_GetRxData(void)
-{
-	return usart_rxdata;			//返回接收的数据变量
 }
 
 /**
@@ -113,10 +121,49 @@ uint8_t USART_GetRxData(void)
   */
 void USART1_IRQHandler(void)
 {
+	
+	static uint8_t RxState = 0;		//定义表示当前状态机状态的静态变量
+	static uint8_t pRxPacket = 0;	//定义表示当前接收数据位置的静态变量
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)		//判断是否是USART1的接收事件触发的中断
 	{
-		usart_rxdata = USART_ReceiveData(USART1);				//读取数据寄存器，存放在接收的数据变量
-		usart_rxflag = 1;										//置接收标志位变量为1
+    uint16_t RxData = USART_ReceiveData(USART1);				//读取数据寄存器，存放在接收的数据变量
+				/*使用状态机的思路，依次处理数据包的不同部分*/
+		
+		/*当前状态为0，接收数据包包头*/
+		if (RxState == 0)
+		{
+			if (RxData == '@')			//如果数据确实是包头
+			{
+				 
+				RxState = 1;			//置下一个状态
+				pRxPacket = 0;			//数据包的位置归零
+			}
+		}
+		/*当前状态为1，接收数据包数据*/
+		else if (RxState == 1)
+		{
+			if(RxData == '\r')
+			{
+				 
+			  RxState = 2;
+			}
+			else
+			{
+			usart_RxPacket[pRxPacket] = RxData;	//将数据存入数据包数组的指定位置
+			pRxPacket ++;				//数据包的位置自增
+			}
+		}
+		/*当前状态为2，接收数据包包尾*/
+		else if (RxState == 2)
+		{
+			if (RxData == '\n')			//如果数据确实是包尾部
+			{
+				RxState = 0;			//状态归0
+				usart_RxPacket[pRxPacket] = '\0';
+				usart_RxFlag = 1;		//接收数据包标志位置1，成功接收一个数据包
+			}
+		}
+		
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);			//清除USART1的RXNE标志位
                                                                 //读取数据寄存器会自动清除此标志位
 	                                                            //如果已经读取了数据寄存器，也可以不执行此代码
