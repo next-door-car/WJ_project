@@ -1,7 +1,6 @@
+#include <stdio.h>
 #ifndef _UART_H
 #define _UART_H
-
-#include <stdio.h>
 
 extern char usart_RxPacket[];				//定义接收数据包数组
 
