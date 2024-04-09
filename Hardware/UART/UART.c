@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "UART.h"
+#include "DATA.h"
+
 
 /**
   * 函    数：串口初始化

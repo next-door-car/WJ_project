@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\DATA;.\Hardware\Motor;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI</IncludePath>
+              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\DATA;.\Hardware\Motor;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI;.\Hardware\TRANCE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -698,11 +698,6 @@
               <FilePath>.\Hardware\UART\UART.h</FilePath>
             </File>
             <File>
-              <FileName>DATA.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\DATA\DATA.c</FilePath>
-            </File>
-            <File>
               <FileName>DATA.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\DATA\DATA.h</FilePath>
@@ -741,6 +736,16 @@
               <FileName>oledfont.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\OLED_SPI\oledfont.h</FilePath>
+            </File>
+            <File>
+              <FileName>TRANCE.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\TRANCE\TRANCE.c</FilePath>
+            </File>
+            <File>
+              <FileName>TRANCE.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\TRANCE\TRANCE.h</FilePath>
             </File>
           </Files>
         </Group>
