@@ -1,6 +1,6 @@
 #ifndef _TRANCE_H
 #define _TRANCE_H
-
+#include "UART.h"
 
 typedef enum
 {

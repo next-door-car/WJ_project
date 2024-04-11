@@ -31,6 +31,16 @@ void FireControl(void)
 }
 
 ENUM_FireContorl_STATE Model_Fire_Start(void){
+	if(Fire_Start_Flag == 1)
+	{
+		/*开始运动*/
+	
+	}
+	else
+	{
+		/*不动*/
+	
+	}
 
 }
 static ENUM_FireContorl_STATE Model_Fire_First(void){

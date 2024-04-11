@@ -132,20 +132,27 @@ void USART1_IRQHandler(void)
 		/*当前状态为0，接收数据包包头*/
 		if (RxState == 0)
 		{
-			if (RxData == '@')			//如果数据确实是包头
+			if (RxData == 'A')			//如果数据确实是包头
 			{
 				 
 				RxState = 1;			//置下一个状态
 				pRxPacket = 0;			//数据包的位置归零
 			}
 		}
+		
 		/*当前状态为1，接收数据包数据*/
 		else if (RxState == 1)
 		{
-			if(RxData == '\r')
+			if(RxData == 'a')
 			{
-				 
-			  RxState = 2;
+				Fire_Start_Flag = 1;    /*上位机控制左右电机*/
+				RxState = 2;
+			}
+			else if(RxData == 'b')
+			{
+			
+			
+				RxState = 2;
 			}
 			else
 			{
@@ -153,10 +160,11 @@ void USART1_IRQHandler(void)
 			pRxPacket ++;				//数据包的位置自增
 			}
 		}
+		
 		/*当前状态为2，接收数据包包尾*/
 		else if (RxState == 2)
 		{
-			if (RxData == '\n')			//如果数据确实是包尾部
+			if (RxData == 'B')			//如果数据确实是包尾部
 			{
 				RxState = 0;			//状态归0
 				usart_RxPacket[pRxPacket] = '\0';

@@ -29,3 +29,5 @@
 .\objects\trance.o: .\Library\stm32f10x_wwdg.h
 .\objects\trance.o: .\Library\misc.h
 .\objects\trance.o: Hardware\TRANCE\TRANCE.h
+.\objects\trance.o: .\Hardware\UART\UART.h
+.\objects\trance.o: D:\KSWJJ\ARM\ARMCC\Bin\..\include\stdio.h

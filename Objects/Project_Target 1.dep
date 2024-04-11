@@ -811,7 +811,7 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 F (.\system\sys.h)(0x66152D91)()
-F (.\Hardware\GPIO\GPIO.c)(0x6613BE23)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\gpio.o --omf_browse .\objects\gpio.crf --depend .\objects\gpio.d)
+F (.\Hardware\GPIO\GPIO.c)(0x6617D585)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\gpio.o --omf_browse .\objects\gpio.crf --depend .\objects\gpio.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\KSWJJ\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
@@ -841,7 +841,7 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 F (.\Hardware\GPIO\GPIO.h)(0x6613BF9D)()
-F (.\Hardware\UART\UART.c)(0x66153069)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\uart.o --omf_browse .\objects\uart.crf --depend .\objects\uart.d)
+F (.\Hardware\UART\UART.c)(0x6617D1CE)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\uart.o --omf_browse .\objects\uart.crf --depend .\objects\uart.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\KSWJJ\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
@@ -872,10 +872,10 @@ I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 I (D:\KSWJJ\ARM\ARMCC\include\stdio.h)(0x64342411)
 I (D:\KSWJJ\ARM\ARMCC\include\stdarg.h)(0x599EDB3A)
-I (Hardware\UART\UART.h)(0x661530B3)
-I (.\Hardware\DATA\DATA.h)(0x661530AC)
-F (.\Hardware\UART\UART.h)(0x661530B3)()
-F (.\Hardware\DATA\DATA.h)(0x661530AC)()
+I (Hardware\UART\UART.h)(0x6617D183)
+I (.\Hardware\DATA\DATA.h)(0x6617D577)
+F (.\Hardware\UART\UART.h)(0x6617D183)()
+F (.\Hardware\DATA\DATA.h)(0x6617D577)()
 F (.\Hardware\PWM_Time\PWM_Time.c)(0x6613C63E)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\pwm_time.o --omf_browse .\objects\pwm_time.crf --depend .\objects\pwm_time.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
@@ -972,7 +972,7 @@ I (Hardware\OLED_SPI\oledfont.h)(0x6613C1AF)
 I (.\system\delay.h)(0x64AEC893)
 F (.\Hardware\OLED_SPI\oled.h)(0x6613C215)()
 F (.\Hardware\OLED_SPI\oledfont.h)(0x6613C1AF)()
-F (.\Hardware\TRANCE\TRANCE.c)(0x6615310F)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\trance.o --omf_browse .\objects\trance.crf --depend .\objects\trance.d)
+F (.\Hardware\TRANCE\TRANCE.c)(0x6617D202)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\trance.o --omf_browse .\objects\trance.crf --depend .\objects\trance.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\KSWJJ\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
@@ -1001,9 +1001,11 @@ I (.\Library\stm32f10x_tim.h)(0x4D783BB4)
 I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
-I (Hardware\TRANCE\TRANCE.h)(0x66153113)
-F (.\Hardware\TRANCE\TRANCE.h)(0x66153113)()
-F (.\User\main.c)(0x66152F51)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (Hardware\TRANCE\TRANCE.h)(0x6617CFC1)
+I (.\Hardware\UART\UART.h)(0x6617D183)
+I (D:\KSWJJ\ARM\ARMCC\include\stdio.h)(0x64342411)
+F (.\Hardware\TRANCE\TRANCE.h)(0x6617CFC1)()
+F (.\User\main.c)(0x6617CB46)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\KSWJJ\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
@@ -1033,11 +1035,11 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 I (.\Hardware\GPIO\GPIO.h)(0x6613BF9D)
-I (.\Hardware\UART\UART.h)(0x661530B3)
+I (.\Hardware\UART\UART.h)(0x6617D183)
 I (D:\KSWJJ\ARM\ARMCC\include\stdio.h)(0x64342411)
 I (.\Hardware\Motor\Motor.h)(0x6613BEF9)
 I (.\Hardware\PWM_Time\PWM_Time.h)(0x6613BEEC)
-I (.\Hardware\TRANCE\TRANCE.h)(0x66153113)
+I (.\Hardware\TRANCE\TRANCE.h)(0x6617CFC1)
 F (.\User\stm32f10x_conf.h)(0x4D99A59E)()
 F (.\User\stm32f10x_it.c)(0x4D99A59E)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\User -I .\Library -I .\Hardware -I .\system -I .\Hardware\GPIO -I .\Hardware\DATA -I .\Hardware\Motor -I .\Hardware\PWM_Time -I .\Hardware\UART -I .\Hardware\OLED_SPI -I .\Hardware\TRANCE-I.\RTE\_Target_1-ID:\KSWJJ\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\KSWJJ\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\stm32f10x_it.o --omf_browse .\objects\stm32f10x_it.crf --depend .\objects\stm32f10x_it.d)
 I (User\stm32f10x_it.h)(0x4D99A59E)

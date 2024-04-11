@@ -34,3 +34,4 @@
 .\objects\main.o: .\Hardware\Motor\Motor.h
 .\objects\main.o: .\Hardware\PWM_Time\PWM_Time.h
 .\objects\main.o: .\Hardware\TRANCE\TRANCE.h
+.\objects\main.o: .\Hardware\UART\UART.h

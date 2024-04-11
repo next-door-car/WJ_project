@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include "stdint.h"
-
 #ifndef _UART_H
 #define _UART_H
+
+
+
+extern uint8_t Fire_Start_Flag;
+
+
 
 void USART_init(void);
 void USART_SendByte(uint16_t Byte);
