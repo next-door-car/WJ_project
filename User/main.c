@@ -7,14 +7,12 @@
 
 int main(void)
 {
-	
+	PWMFirst_config(80,72); 
 	while(1){
         FireControl();
     }
-    
-	
-	
-	
-	
 	
 }
+
+
+

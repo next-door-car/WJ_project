@@ -1,4 +1,10 @@
 #include "stm32f10x.h"                  // Device header
+#include "PWM_Time.h"
+
+uint16_t First_i; //左右电机脉冲捕获计数
+uint16_t Second_i; //左右电机脉冲捕获计数
+uint8_t TIM2_Flag; //脉冲走完标志
+uint8_t TIM3_Flag; //脉冲走完标志
 
 void PWMFirst_config(uint8_t ARR_First, uint8_t PSC_First)
 {
@@ -89,8 +95,16 @@ void PWMSecond_config(uint8_t ARR_Second, uint8_t PSC_Second)
 
 void TIM2_IRQHandler(void)
 { 	 
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
-	{//是更新中断	
+	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //是更新中断
+	{
+		if(First_i==Step_First)
+		{
+			First_i=0;
+			TIM2_Flag=1;
+		
+		}
+		else
+			First_i++;
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);  //清除更新中断标志  
 		
     }
@@ -100,6 +114,15 @@ void TIM3_IRQHandler(void)
 { 	 
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
 	{//是更新中断	
+		
+		if(Second_i==Step_Second)
+		{
+			Second_i=0;
+			TIM3_Flag=1; 
+		
+		}
+		else
+			Second_i++;
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);  //清除更新中断标志  
 		
     }

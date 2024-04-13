@@ -31,4 +31,3 @@
 .\objects\uart.o: D:\KSWJJ\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\uart.o: D:\KSWJJ\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\uart.o: Hardware\UART\UART.h
-.\objects\uart.o: .\Hardware\DATA\DATA.h

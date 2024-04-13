@@ -28,3 +28,4 @@
 .\objects\pwm_time.o: .\Library\stm32f10x_usart.h
 .\objects\pwm_time.o: .\Library\stm32f10x_wwdg.h
 .\objects\pwm_time.o: .\Library\misc.h
+.\objects\pwm_time.o: Hardware\PWM_Time\PWM_Time.h
