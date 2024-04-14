@@ -3,6 +3,8 @@
 
 uint16_t Step_First;  //左右电机脉冲总数
 uint16_t Step_Second; //上下电机脉冲总数
+uint8_t trance_x;     //左右电机坐标
+uint8_t trance_y;	  //上下电机坐标
 /* 灭火控制状态机:启动 */
 ENUM_FireContorl_STATE FireModel = Fire_Start_Model; /* 控制状态机:是否启动 */
 static ENUM_FireContorl_STATE Model_Fire_Start(void);  /*是否启动巡逻*/
@@ -41,15 +43,15 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 		
 		/*自由运动模式*/
 		while(!Fire_Show_Flag)  /*火焰标志位*/
-		{   							
-			MOTOR_config(Motor_First_Run ,Motor_First_Right,
-			Motor_Second_DISRun,Motor_Second_Right); /*配置打开左右电机*/
+		{   
+			MOTOR_First_Dirct(Right);
+			MOTOR_Second_Dirct(Right);
+			MOTOR_config(Motor_First_Run ,Motor_Second_DISRun); /*配置打开左右电机*/
+			
 			/*走多少碰到限位*/
 			
-		
-			MOTOR_config(Motor_First_Run ,Motor_First_Left,
-			Motor_Second_DISRun,Motor_Second_Right); /*配置打开左右电机*/
-			/*走多少碰到限位*/
+			
+			
 		}
 		FireModel = Fire_First_Model;
 	}
@@ -63,10 +65,11 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 	return FireModel;
 }
 static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
+	
 
 	return FireModel;
 }
-static ENUM_FireContorl_STATE Model_Fire_Second(void){
+static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
 
 	return FireModel;
 }

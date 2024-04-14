@@ -9,6 +9,9 @@ uint16_t usart_RxFlag;					//定义接收数据包标志位
 
 uint8_t Fire_Start_Flag = 0;            // 上位机控制左右电机
 uint8_t Fire_Show_Flag = 0;             /*火焰出现标志*/
+uint8_t DATA_Flag = 0;       			/*接收坐标标志*/
+static uint8_t Data_Length = 0; 		//接收数据长度
+
 /**
   * 函    数：串口初始化
   * 参    数：无
@@ -128,6 +131,7 @@ void USART1_IRQHandler(void)
 	
 	static uint8_t RxState = 0;		//定义表示当前状态机状态的静态变量
 	static uint8_t pRxPacket = 0;	//定义表示当前接收数据位置的静态变量
+	
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)		//判断是否是USART1的接收事件触发的中断
 	{
     uint16_t RxData = USART_ReceiveData(USART1);				//读取数据寄存器，存放在接收的数据变量
@@ -141,12 +145,14 @@ void USART1_IRQHandler(void)
 				 
 				RxState = 1;			//置下一个状态
 				pRxPacket = 0;			//数据包的位置归零
+				Data_Length=1;			//数据长度为1
 			}
 		}
 		
 		/*当前状态为1，接收数据包数据*/
 		else if (RxState == 1)
 		{
+			
 			if(RxData == 'a')
 			{
 				Fire_Start_Flag = 1;    /*上位机控制左右电机*/
@@ -163,18 +169,24 @@ void USART1_IRQHandler(void)
 			usart_RxPacket[pRxPacket] = RxData;	//将数据存入数据包数组的指定位置
 			pRxPacket ++;				//数据包的位置自增
 			}
+			Data_Length++;              //长度自增
 		}
 		
 		/*当前状态为2，接收数据包包尾*/
 		else if (RxState == 2)
 		{
 			if (RxData == 'B')			//如果数据确实是包尾部
-			{
+			{	
+				if(Data_Length==3)
+					printf("正确接收");
+				else
+					Uart_DATA();
 				RxState = 0;			//状态归0
 				usart_RxPacket[pRxPacket] = '\0';
 				usart_RxFlag = 1;		//接收数据包标志位置1，成功接收一个数据包
 			}
 		}
+		
 		
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);			//清除USART1的RXNE标志位
                                                                 //读取数据寄存器会自动清除此标志位
@@ -182,5 +194,33 @@ void USART1_IRQHandler(void)
 	}
 }
 
+void Uart_DATA(void){
+	trance_x = 0; trance_y = 0;
+	u16 len = Data_Length & 0x3fff; //得到此次接收到的数据长度(注意不包含末尾的 A 与 B )
+	// printf("len:%d\r\n", len);  //打印是否接收到
+	if (len == 10) 
+	{
+		len -= 1; // 9=>10
+		len -= 1; // 空位
+		trance_y += 1 * (usart_RxPacket[len] - 48);
+		trance_y += 10 * (usart_RxPacket[len-1] - 48);
+		trance_y += 100 * (usart_RxPacket[len-2] - 48);
+		trance_y += 1000 * (usart_RxPacket[len-3] - 48);
+		len -= 4; // 前4位
+		len -= 1; // 空位
+		trance_x += 1 * (usart_RxPacket[len] - 48);
+		trance_x += 10 * (usart_RxPacket[len-1] - 48);
+		trance_x += 100 * (usart_RxPacket[len-2] - 48);
+		trance_x += 1000 * (usart_RxPacket[len-3] - 48);
+		Data_Length = 0;
+		memset(usart_RxPacket, '0', sizeof(usart_RxPacket));
+	} 
+	else 
+	{
+		printf("数据发送错误 erro\r\n");
+		memset(usart_RxPacket, '0', sizeof(usart_RxPacket)); // 清空缓冲区
+	}	
+
+}
 
 
