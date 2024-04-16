@@ -9,8 +9,16 @@ uint16_t usart_RxFlag;					//定义接收数据包标志位
 
 uint8_t Fire_Start_Flag = 0;            // 上位机控制左右电机
 uint8_t Fire_Show_Flag = 0;             /*火焰出现标志*/
+uint8_t Water_Flag = 0;             	/*喷水完成标志*/
+
 uint8_t DATA_Flag = 0;       			/*接收坐标标志*/
 static uint8_t Data_Length = 0; 		//接收数据长度
+/*加入对printf的支持*/
+int fputc(int ch, FILE *f) {      
+	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
+    USART1->DR = (u8) ch;      
+	return ch;
+}
 
 /**
   * 函    数：串口初始化
@@ -164,6 +172,12 @@ void USART1_IRQHandler(void)
 				Fire_Show_Flag = 1;    /*火焰出现标志*/
 				RxState = 2;
 			}
+			else if(RxData == 'c')
+			{
+			
+				Water_Flag = 1;   		 /*火焰消灭标志*/
+				RxState = 2;
+			}
 			else
 			{
 			usart_RxPacket[pRxPacket] = RxData;	//将数据存入数据包数组的指定位置
@@ -213,7 +227,7 @@ void Uart_DATA(void){
 		trance_x += 100 * (usart_RxPacket[len-2] - 48);
 		trance_x += 1000 * (usart_RxPacket[len-3] - 48);
 		Data_Length = 0;
-		memset(usart_RxPacket, '0', sizeof(usart_RxPacket));
+		memset(usart_RxPacket, '0', sizeof(usart_RxPacket));   //清空usart_RxPacket
 	} 
 	else 
 	{

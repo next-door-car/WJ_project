@@ -54,6 +54,17 @@ void MS_Second_config()
 	GPIO_Init(GPIOB,&GPIO_Init_STRUCTUR);  //上下电机
 } 
 
+/*喷水配置函数*/
+void Water(void)
+{
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	GPIO_InitTypeDef GPIO_Init_STRUCTURE;
+	GPIO_Init_STRUCTURE.GPIO_Mode=GPIO_Mode_Out_PP;
+	GPIO_Init_STRUCTURE.GPIO_Pin=GPIO_Pin_12;
+	GPIO_Init_STRUCTURE.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&GPIO_Init_STRUCTURE); 
+}
+
 /*方向配置函数*/
 void DIR_config()
 {
@@ -82,6 +93,7 @@ void MOTOR_config(uint8_t motor_first_run ,uint8_t motor_second_run)
 	GPIO_WriteBit(GPIOB,GPIO_Pin_1,motor_second_run);//上下电机 失能
 	GPIO_WriteBit(GPIOA,GPIO_Pin_15,Bit_SET); //MS1
 	GPIO_WriteBit(GPIOB,GPIO_Pin_3,Bit_SET); //MS2
+	GPIO_WriteBit(GPIOB,GPIO_Pin_12,Bit_RESET); //不喷水
 }
 
 /*左右电机方向函数*/

@@ -8,6 +8,7 @@
 int main(void)
 {
 	PWMFirst_config(80,72); 
+	MOTOR_config(Motor_First_DISRun,Motor_Second_DISRun);  //≈‰÷√
 	while(1){
         FireControl();
     }
