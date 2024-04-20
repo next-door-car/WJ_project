@@ -30,6 +30,7 @@ void PWM_init(uint8_t ARR, uint8_t PSC)
 	TIMstructure.TIM_OCNPolarity=TIM_OCNPolarity_High;
 	TIMstructure.TIM_OCIdleState=TIM_OCIdleState_Reset;
 	TIMstructure.TIM_OCNIdleState=TIM_OCNIdleState_Reset;
+	TIM2->CNT=0;//防止PWM信号的第一个脉冲宽度不确定的现象。 
 	//PA1
 	TIM_OC2Init(TIM2,&TIMstructure);
 	TIM_CtrlPWMOutputs(TIM2,ENABLE);
@@ -41,7 +42,6 @@ void PWM_init(uint8_t ARR, uint8_t PSC)
     NVIC_Init(&NVIC_InitStructure); // 初始化NVIC寄存器
     TIM_ClearFlag(TIM2,TIM_FLAG_Update);// 手动清除更新中断标志位，避免刚初始化完就近中断
     TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); // 使能更新中断TIM_Cmd
-	TIM_CtrlPWMOutputs(TIM2, DISABLE);     //不输出PWM
 	TIM_Cmd(TIM2,DISABLE);
 	
 }
@@ -53,7 +53,6 @@ void TIM2_IRQHandler(void)
 		if(i==counts)
 		{
 			i=0;
-			TIM_CtrlPWMOutputs(TIM2, DISABLE);     //不输出PWM
 			flag=1;
 		}
 			

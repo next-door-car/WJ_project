@@ -8,5 +8,5 @@ void gpio_config(void)
 	GPIO_Init_STRUCTURE.GPIO_Pin=GPIO_Pin_8;
 	GPIO_Init_STRUCTURE.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_Init_STRUCTURE);
-	GPIO_ResetBits(GPIOA, GPIO_Pin_8);  //使能引脚
+	GPIO_SetBits(GPIOA, GPIO_Pin_8);  //使能引脚
 }
