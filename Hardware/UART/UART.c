@@ -8,12 +8,8 @@ char usart_RxPacket[100];				//定义接收数据包数组
 uint8_t USART_GetRxFlag(void);
 uint16_t usart_RxFlag;					//定义接收数据包标志位
 
-uint8_t Fire_Start_Flag = 0;            // 上位机控制左右电机
-uint8_t Fire_Show_Flag = 0;             /*火焰出现标志*/
-uint8_t Water_Flag = 0;             	/*喷水完成标志*/
 
-uint8_t DATA_Flag = 0;       			/*接收坐标标志*/
-static uint8_t Data_Length = 0; 		//接收数据长度
+
 
 /*加入对printf的支持*/
 #if 1
@@ -157,76 +153,9 @@ uint8_t USART_GetRxFlag(void)
 void USART1_IRQHandler(void)
 {
 	
-	static uint8_t RxState = 0;		//定义表示当前状态机状态的静态变量
-	static uint8_t pRxPacket = 0;	//定义表示当前接收数据位置的静态变量
 	
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)		//判断是否是USART1的接收事件触发的中断
 	{
-    uint16_t RxData = USART_ReceiveData(USART1);				//读取数据寄存器，存放在接收的数据变量
-				/*使用状态机的思路，依次处理数据包的不同部分*/
-		
-		/*当前状态为0，接收数据包包头*/
-		if (RxState == 0)
-		{
-			if (RxData == 'A')			//如果数据确实是包头
-			{
-				 
-				RxState = 1;			//置下一个状态
-				pRxPacket = 0;			//数据包的位置归零
-				Data_Length=1;			//数据长度为1
-			}
-		}
-		
-		/*当前状态为1，接收数据包数据*/
-		else if (RxState == 1)
-		{
-			
-			if(RxData == 'a')
-			{
-				Fire_Start_Flag = 1;    /*上位机控制左右电机*/
-				RxState = 2;
-			}
-			else if(RxData == 'b')
-			{
-			
-				Fire_Show_Flag = 1;    /*火焰出现标志*/
-				RxState = 2;
-			}
-			else if(RxData == 'c')
-			{
-			
-				Water_Flag = 1;   		 /*火焰消灭标志*/
-				RxState = 2;
-			}
-			else
-			{
-			usart_RxPacket[pRxPacket] = RxData;	//将数据存入数据包数组的指定位置
-			pRxPacket ++;				//数据包的位置自增
-			}
-			Data_Length++;              //长度自增
-			if(Data_Length==10)
-				RxState = 2;
-		}
-		
-		/*当前状态为2，接收数据包包尾*/
-		else if (RxState == 2)
-		{
-			if (RxData == 'B')			//如果数据确实是包尾部
-			{	
-				if(Data_Length==3)
-					printf("正确接收");
-				else
-				{
-					printf("接收坐标");
-					Uart_DATA();
-				}
-					
-				RxState = 0;			//状态归0
-				usart_RxPacket[pRxPacket] = '\0';
-				usart_RxFlag = 1;		//接收数据包标志位置1，成功接收一个数据包
-			}
-		}
-		
 		
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);			//清除USART1的RXNE标志位
                                                                 //读取数据寄存器会自动清除此标志位
@@ -234,11 +163,4 @@ void USART1_IRQHandler(void)
 	}
 }
 
-void Uart_DATA(void){
-	trance_x = 0; trance_y = 0;
-	u16 len = Data_Length & 0x3fff; //得到此次接收到的数据长度(注意不包含末尾的 A 与 B )
-	trance_x = ((usart_RxPacket[0] - '0')*1000)+((usart_RxPacket[1] - '0')*100)+((usart_RxPacket[2] - '0')*10)+(usart_RxPacket[3] - '0');
-    trance_y = ((usart_RxPacket[5] - '0')*1000)+((usart_RxPacket[6] - '0')*100)+((usart_RxPacket[7] - '0')*10)+(usart_RxPacket[8] - '0');
-	printf("%d %d",trance_x,trance_y);  //测试trance_x ,trance_y
-}
-  
+

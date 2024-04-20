@@ -5,10 +5,11 @@
 
 
 
-extern uint16_t Step_First;
-extern uint16_t Step_Second;
-void PWMFirst_config(uint8_t ARR_First, uint8_t PSC_First);
-void PWMSecond_config(uint8_t ARR_Second, uint8_t PSC_Second);
+extern uint16_t i;
+extern uint16_t counts;
+extern uint16_t flag;
+
+void PWM_init(uint8_t ARR, uint8_t PSC);
 
 
 #endif 

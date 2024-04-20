@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\DATA;.\Hardware\Motor;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI;.\Hardware\TRANCE</IncludePath>
+              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -698,11 +698,6 @@
               <FilePath>.\Hardware\UART\UART.h</FilePath>
             </File>
             <File>
-              <FileName>DATA.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\DATA\DATA.h</FilePath>
-            </File>
-            <File>
               <FileName>PWM_Time.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\PWM_Time\PWM_Time.c</FilePath>
@@ -711,16 +706,6 @@
               <FileName>PWM_Time.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\PWM_Time\PWM_Time.h</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\Motor\Motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\Motor\Motor.h</FilePath>
             </File>
             <File>
               <FileName>oled.c</FileName>
@@ -736,16 +721,6 @@
               <FileName>oledfont.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\OLED_SPI\oledfont.h</FilePath>
-            </File>
-            <File>
-              <FileName>TRANCE.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\TRANCE\TRANCE.c</FilePath>
-            </File>
-            <File>
-              <FileName>TRANCE.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\TRANCE\TRANCE.h</FilePath>
             </File>
           </Files>
         </Group>
