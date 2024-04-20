@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include "UART.h"
 
+
 char usart_RxPacket[100];				//定义接收数据包数组
 uint8_t USART_GetRxFlag(void);
 uint16_t usart_RxFlag;					//定义接收数据包标志位
@@ -13,12 +14,32 @@ uint8_t Water_Flag = 0;             	/*喷水完成标志*/
 
 uint8_t DATA_Flag = 0;       			/*接收坐标标志*/
 static uint8_t Data_Length = 0; 		//接收数据长度
+
 /*加入对printf的支持*/
-int fputc(int ch, FILE *f) {      
+#if 1
+#pragma import(__use_no_semihosting)             
+//标准库需要的支持函数                 
+struct __FILE 
+{ 
+	int handle; 
+
+}; 
+
+FILE __stdout;       
+//定义_sys_exit()以避免使用半主机模式    
+void _sys_exit(int x)
+{ 
+	x = x; 
+} 
+//重定义fputc函数 
+int fputc(int ch, FILE *f)
+{      
 	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
     USART1->DR = (u8) ch;      
 	return ch;
 }
+#endif 
+
 
 /**
   * 函    数：串口初始化
@@ -81,7 +102,6 @@ void USART_SendByte(uint16_t Byte)
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);	//等待发送完成
 	/*下次写入数据寄存器会自动清除发送完成标志位，故此循环后，无需清除标志位*/
 }
-
 /**
   * 函    数：串口发送一个数组
   * 参    数：Array 要发送数组的首地址
@@ -184,6 +204,8 @@ void USART1_IRQHandler(void)
 			pRxPacket ++;				//数据包的位置自增
 			}
 			Data_Length++;              //长度自增
+			if(Data_Length==10)
+				RxState = 2;
 		}
 		
 		/*当前状态为2，接收数据包包尾*/
@@ -194,7 +216,11 @@ void USART1_IRQHandler(void)
 				if(Data_Length==3)
 					printf("正确接收");
 				else
+				{
+					printf("接收坐标");
 					Uart_DATA();
+				}
+					
 				RxState = 0;			//状态归0
 				usart_RxPacket[pRxPacket] = '\0';
 				usart_RxFlag = 1;		//接收数据包标志位置1，成功接收一个数据包
@@ -211,30 +237,8 @@ void USART1_IRQHandler(void)
 void Uart_DATA(void){
 	trance_x = 0; trance_y = 0;
 	u16 len = Data_Length & 0x3fff; //得到此次接收到的数据长度(注意不包含末尾的 A 与 B )
-	// printf("len:%d\r\n", len);  //打印是否接收到
-	if (len == 10) 
-	{
-		len -= 1; // 9=>10
-		len -= 1; // 空位
-		trance_y += 1 * (usart_RxPacket[len] - 48);
-		trance_y += 10 * (usart_RxPacket[len-1] - 48);
-		trance_y += 100 * (usart_RxPacket[len-2] - 48);
-		trance_y += 1000 * (usart_RxPacket[len-3] - 48);
-		len -= 4; // 前4位
-		len -= 1; // 空位
-		trance_x += 1 * (usart_RxPacket[len] - 48);
-		trance_x += 10 * (usart_RxPacket[len-1] - 48);
-		trance_x += 100 * (usart_RxPacket[len-2] - 48);
-		trance_x += 1000 * (usart_RxPacket[len-3] - 48);
-		Data_Length = 0;
-		memset(usart_RxPacket, '0', sizeof(usart_RxPacket));   //清空usart_RxPacket
-	} 
-	else 
-	{
-		printf("数据发送错误 erro\r\n");
-		memset(usart_RxPacket, '0', sizeof(usart_RxPacket)); // 清空缓冲区
-	}	
-
+	trance_x = ((usart_RxPacket[0] - '0')*1000)+((usart_RxPacket[1] - '0')*100)+((usart_RxPacket[2] - '0')*10)+(usart_RxPacket[3] - '0');
+    trance_y = ((usart_RxPacket[5] - '0')*1000)+((usart_RxPacket[6] - '0')*100)+((usart_RxPacket[7] - '0')*10)+(usart_RxPacket[8] - '0');
+	printf("%d %d",trance_x,trance_y);  //测试trance_x ,trance_y
 }
-
-
+  

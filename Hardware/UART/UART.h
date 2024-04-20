@@ -4,8 +4,8 @@
 #define _UART_H
 
 
-extern uint8_t trance_x;
-extern uint8_t trance_y;
+extern uint32_t trance_x;
+extern uint32_t trance_y;
 
 
 void USART_init(void);

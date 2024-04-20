@@ -3,8 +3,8 @@
 
 uint16_t Step_First;  //左右电机脉冲总数
 uint16_t Step_Second; //上下电机脉冲总数
-uint8_t trance_x;     //左右电机坐标
-uint8_t trance_y;	  //上下电机坐标
+uint32_t trance_x;     //左右电机坐标
+uint32_t trance_y;	  //上下电机坐标
 uint32_t Step_y;      //上下电机的总脉冲数
 uint8_t i=1;            //上下电机的总脉冲数统计
 int X_step;           //左右步数相关比例
