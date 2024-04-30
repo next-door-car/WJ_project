@@ -8,7 +8,7 @@ uint8_t TIM3_Flag; //脉冲走完标志
 uint16_t X_Allcount; //从0-640 总需要的脉冲数
 uint16_t Y_Allcount; //从0-480 总需要的脉冲数
 
-void PWMFirst_config(uint8_t ARR_First, uint8_t PSC_First)
+void PWMFirst_config(int8_t ARR_First, int8_t PSC_First)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
 	TIM_InternalClockConfig(TIM2);	
@@ -51,7 +51,7 @@ void PWMFirst_config(uint8_t ARR_First, uint8_t PSC_First)
 	TIM_Cmd(TIM2,DISABLE);
 }
 
-void PWMSecond_config(uint8_t ARR_Second, uint8_t PSC_Second)
+void PWMSecond_config(int8_t ARR_Second, int8_t PSC_Second)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
 	TIM_InternalClockConfig(TIM3);	
@@ -99,7 +99,7 @@ void TIM2_IRQHandler(void)
 { 	 
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //是更新中断
 	{
-		if(First_i==Step_First)
+		if(First_i>=Step_First)
 		{
 			First_i=0;
 			Step_First=0;
@@ -116,8 +116,8 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 { 	 
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
-	{//是更新中断	
-		if(Second_i==Step_Second)
+	{
+		if(Second_i>=Step_Second)
 		{
 			Second_i=0;
 			Step_Second=0;

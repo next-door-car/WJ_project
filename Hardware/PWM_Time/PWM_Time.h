@@ -7,8 +7,8 @@
 
 extern uint16_t Step_First;
 extern uint16_t Step_Second;
-void PWMFirst_config(uint8_t ARR_First, uint8_t PSC_First);
-void PWMSecond_config(uint8_t ARR_Second, uint8_t PSC_Second);
+void PWMFirst_config(int8_t ARR_First, int8_t PSC_First);
+void PWMSecond_config(int8_t ARR_Second, int8_t PSC_Second);
 
 
 #endif 

@@ -18,6 +18,16 @@ void EN_config()
 	GPIO_Init(GPIOB,&GPIO_Init_STRUCTUR);  //上下电机
 }
 
+void EN_First(uint8_t config)
+{
+	GPIO_WriteBit(GPIOA,GPIO_Pin_5,config);  //左右电机使能
+}
+
+void EN_Second(uint8_t config)
+{
+	GPIO_WriteBit(GPIOB,GPIO_Pin_1,config);  //左右电机使能
+}
+
 /*第一个电机MS配置*/
 void MS_First_config()
 {
@@ -33,7 +43,7 @@ void MS_First_config()
 	GPIO_Init_STRUCTUR.GPIO_Mode=GPIO_Mode_Out_PP;
 	GPIO_Init_STRUCTUR.GPIO_Pin=GPIO_Pin_13;
 	GPIO_Init_STRUCTUR.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_Init(GPIOC,&GPIO_Init_STRUCTUR);  //上下电机
+	GPIO_Init(GPIOC,&GPIO_Init_STRUCTUR);  //MS2
 }  
 
 /*第二个电机MS配置*/
@@ -51,7 +61,7 @@ void MS_Second_config()
 	GPIO_Init_STRUCTUR.GPIO_Mode=GPIO_Mode_Out_PP;
 	GPIO_Init_STRUCTUR.GPIO_Pin=GPIO_Pin_3;
 	GPIO_Init_STRUCTUR.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB,&GPIO_Init_STRUCTUR);  //上下电机
+	GPIO_Init(GPIOB,&GPIO_Init_STRUCTUR);  //	MS2
 } 
 
 /*喷水配置函数*/
@@ -84,13 +94,11 @@ void DIR_config()
 } 
 
 /*全局MOTOR配置函数*/
-void MOTOR_config(uint8_t motor_first_run ,uint8_t motor_second_run)
+void MS_config()
 {
-	GPIO_WriteBit(GPIOA,GPIO_Pin_5,motor_first_run);//左右电机 使能
 	GPIO_WriteBit(GPIOB,GPIO_Pin_5,Bit_SET); //MS1
 	GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET); //MS2
 	
-	GPIO_WriteBit(GPIOB,GPIO_Pin_1,motor_second_run);//上下电机 失能
 	GPIO_WriteBit(GPIOA,GPIO_Pin_15,Bit_SET); //MS1
 	GPIO_WriteBit(GPIOB,GPIO_Pin_3,Bit_SET); //MS2
 	GPIO_WriteBit(GPIOB,GPIO_Pin_12,Bit_RESET); //不喷水

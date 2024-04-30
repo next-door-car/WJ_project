@@ -22,7 +22,7 @@ static ENUM_FireContorl_STATE Model_Fire_Fourth(void);  /*第一电机继续运�
 /*状态机进行模式的选取*/
 void FireControl(void)
 {
-//  static FireModel = Fire_Start_Model;
+	//static FireModel = Fire_Start_Model;
 	switch (FireModel) 
 	{
 	case Fire_Start_Model:
@@ -43,30 +43,37 @@ void FireControl(void)
 ENUM_FireContorl_STATE Model_Fire_Start(void){
 	if(Fire_Start_Flag == 1)
 	{
-		/*开始运动*/
-		GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);  //左右电机使能
-		GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_RESET);//上下电机失能
+		Fire_Start_Flag=0;    //标志位重置
+		PWMFirst_config(100,72); /*开始运动*/
+		
+		EN_First(EN);  //左右电机使能
+		EN_Second(DISEN);//上下电机失能
+		MOTOR_First_Dirct(Right);
 		TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
 		TIM_Cmd(TIM3,DISABLE);	/*上下电机关闭*/
 		
 		/*自由运动模式*/
-		while(!Fire_Show_Flag)  /*火焰标志位*/
+		while(1)  /*火焰标志位*/
 		{   
-			MOTOR_First_Dirct(Right);
-			MOTOR_config(Motor_First_Run ,Motor_Second_DISRun); /*配置打开左右电机*/
+			if(Fire_Show_Flag==1)
+			{
+				Fire_Show_Flag=0;
+				TIM_Cmd(TIM2,DISABLE);
+				break;
+			}
+			
 			
 			/*走多少碰到限位*/
 			
 			
-			
 		}
-		FireModel = Fire_First_Model;
+	//	FireModel = Fire_First_Model;
 	}
 	else
 	{
 		/*不动*/
-		GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_RESET);//左右电机失能
-		GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_RESET);//上下电机失能
+		EN_First(DISEN);//左右电机失能
+		EN_Second(DISEN);//上下电机失能
 		TIM_Cmd(TIM2,DISABLE); /*左右电机*/
 		TIM_Cmd(TIM3,DISABLE);	/*上下电机*/
 	
@@ -78,7 +85,8 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 /*235<trance_y<245*/
 /*左右电机与上下电机无微调*/
 static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
-	TIM_Cmd(TIM2,DISABLE); /*左右电机*/
+	EN_First(DISEN);//左右电机失能
+	TIM_Cmd(TIM2,DISABLE); /*左右电机关闭*/
 	if(TX > trance_x)
 	{
 		MOTOR_First_Dirct(Left);                //方向
@@ -91,14 +99,20 @@ static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
 	
 	}
 	Step_First=X_step;
-	GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);//左右电机使能
+	EN_First(EN);//左右电机使能
 	TIM_Cmd(TIM2,ENABLE); /*左右电机*/
-	if(TIM2_Flag==1)
+	while(1)
 	{
+		if(TIM2_Flag==1)
+		{
 		TIM2_Flag=0;
-		GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_RESET);//左右电机失能
+		EN_First(DISEN);//左右电机失能
 		TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
+		}
+	
 	}
+		
+	
 	FireModel = Fire_Second_Model;	/*进入第二状态*/
 	return FireModel;
 }
@@ -119,14 +133,19 @@ static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
 	}
 	Step_y=i*Y_step;                            //以向上为正需要的脉冲总数
 	Step_Second=Y_step;
+	PWMSecond_config(100,72); 
 	TIM_Cmd(TIM3,ENABLE); /*上下电机*/
-	if(TIM3_Flag==1)
+	while(1)
 	{
+		if(TIM3_Flag==1)
+		{
 		TIM3_Flag=0;
-		GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_RESET);//上下电机失能
+		EN_Second(DISEN);//上下电机失能
 		TIM_Cmd(TIM3,DISABLE); /*关闭上下电机*/
-	}
+			break;
+		}
 	
+	}
 	FireModel = Fire_Third_Model; /*进入第三状态*/
 	return FireModel;
 }
@@ -144,25 +163,29 @@ static ENUM_FireContorl_STATE Model_Fire_Third(void){
 		i=1;
 		Step_y+=i*Step_Second;                  //计脉冲数
 		
-		GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);//左右电机使能
-		GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_SET);//上下电机使能
+		EN_First(EN);//左右电机使能
+		EN_Second(EN);//上下电机使能
 		
 		TIM_Cmd(TIM2,ENABLE); 					/*左右电机使能*/	
 		TIM_Cmd(TIM3,ENABLE); 					/*上下电机使能*/
-		while(TIM2_Flag==1&&TIM3_Flag==1)
+		while(1)
 		{
-			TIM2_Flag=0;
-			TIM3_Flag=0;
-			TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
-			GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_RESET);//左右电机失能
-			TIM_Cmd(TIM3,DISABLE); /*关闭左右电机*/
-			GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_RESET);//上下电机失能
+			if(TIM2_Flag==1&&TIM3_Flag==1)
+			{
+				TIM2_Flag=0;
+				TIM3_Flag=0;
+				TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
+				EN_First(DISEN);//左右电机失能
+				TIM_Cmd(TIM3,DISABLE); /*关闭左右电机*/
+				EN_Second(DISEN);//上下电机失能
+			}
+			
 		}
 		if(Water_Flag==1)						 //接收到灭火完成标志
 		{
 			Water_Flag=0;
+			FireModel = Fire_Fourth_Model; /*进入第四状态*/
 			break;
-		
 		}
 		Step_First=200;
 		Step_Second=200;
@@ -172,23 +195,28 @@ static ENUM_FireContorl_STATE Model_Fire_Third(void){
 		i=-1;
 		Step_y+=i*Step_Second;                  //计脉冲数
 		
-		GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);//左右电机使能
-		GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_SET);//上下电机使能
+		EN_First(EN);//左右电机使能
+		EN_Second(EN);//上下电机使能
 		TIM_Cmd(TIM2,ENABLE); 					/*左右电机使能*/	
 		TIM_Cmd(TIM3,ENABLE); 					/*上下电机使能*/
 		
-		while(TIM2_Flag==1&&TIM3_Flag==1)
+		while(1)
 		{
-			TIM2_Flag=0;
-			TIM3_Flag=0;
-			TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
-			GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_RESET);//左右电机失能
-			TIM_Cmd(TIM3,DISABLE); /*关闭上下电机*/
-			GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_RESET);//上下电机失能
+			if(TIM2_Flag==1&&TIM3_Flag==1)
+			{
+				TIM2_Flag=0;
+				TIM3_Flag=0;
+				TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
+				EN_First(DISEN);//左右电机失能
+				TIM_Cmd(TIM3,DISABLE); /*关闭上下电机*/
+				EN_Second(DISEN);//上下电机失能
+			}
+			
 		}
 		if(Water_Flag==1)                             //接收到灭火完成标志
 		{
 			Water_Flag=0;
+			FireModel = Fire_Fourth_Model; /*进入第四状态*/
 			break;
 		}
 		
@@ -199,7 +227,7 @@ static ENUM_FireContorl_STATE Model_Fire_Third(void){
 
 ENUM_FireContorl_STATE Model_Fire_Fourth(void){
 	GPIO_WriteBit(GPIOB,GPIO_Pin_12,Bit_RESET); //喷水关闭
-	GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);//左右电机使能
+	EN_First(EN);//左右电机使能
 	TIM_Cmd(TIM2,ENABLE); 					/*左右电机使能*/	
 	if(Step_y>0)					/*向下运动*/
 	{
@@ -212,7 +240,7 @@ ENUM_FireContorl_STATE Model_Fire_Fourth(void){
 	
 	}
 	Step_Second=Step_y;
-	GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_SET);//上下电机使能
+	EN_Second(EN);//上下电机使能
 	TIM_Cmd(TIM3,ENABLE); 					/*上下电机使能*/
 	while(1)
 	{

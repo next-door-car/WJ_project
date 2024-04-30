@@ -184,26 +184,30 @@ void USART1_IRQHandler(void)
 			if(RxData == 'a')
 			{
 				Fire_Start_Flag = 1;    /*上位机控制左右电机*/
+				Data_Length++; 
 				RxState = 2;
 			}
 			else if(RxData == 'b')
 			{
 			
 				Fire_Show_Flag = 1;    /*火焰出现标志*/
+				Data_Length++; 
 				RxState = 2;
 			}
 			else if(RxData == 'c')
 			{
 			
 				Water_Flag = 1;   		 /*火焰消灭标志*/
+				Data_Length++; 
 				RxState = 2;
 			}
 			else
 			{
 			usart_RxPacket[pRxPacket] = RxData;	//将数据存入数据包数组的指定位置
 			pRxPacket ++;				//数据包的位置自增
+			Data_Length++; 
 			}
-			Data_Length++;              //长度自增
+			//Data_Length++;              //长度自增
 			if(Data_Length==10)
 				RxState = 2;
 		}
@@ -213,6 +217,7 @@ void USART1_IRQHandler(void)
 		{
 			if (RxData == 'B')			//如果数据确实是包尾部
 			{	
+				Data_Length++;
 				if(Data_Length==3)
 					printf("正确接收");
 				else
