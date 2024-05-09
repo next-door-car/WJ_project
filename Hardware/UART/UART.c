@@ -77,14 +77,14 @@ void USART_init(void){
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);			//开启串口接收数据的中断
 	
 	/*NVIC中断分组*/
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);			//配置NVIC为分组2
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);			//配置NVIC为分组2
 	
 	/*NVIC配置*/
 	NVIC_InitTypeDef NVIC_InitStructure;					//定义结构体变量
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;		//选择配置NVIC的USART1线
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//指定NVIC线路使能
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;		//指定NVIC线路的抢占优先级为1
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//指定NVIC线路的响应优先级为1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//指定NVIC线路的响应优先级为1
 	NVIC_Init(&NVIC_InitStructure);							//将结构体变量交给NVIC_Init，配置NVIC外设
 	
 	/*USART使能*/
@@ -219,10 +219,10 @@ void USART1_IRQHandler(void)
 			{	
 				Data_Length++;
 				if(Data_Length==3)
-					printf("正确接收");
+					printf("正确接收\n");
 				else
 				{
-					printf("接收坐标");
+					printf("接收坐标\n");
 					Uart_DATA();
 				}
 					

@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\DATA;.\Hardware\Motor;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI;.\Hardware\TRANCE</IncludePath>
+              <IncludePath>.\Start;.\User;.\Library;.\Hardware;.\system;.\Hardware\GPIO;.\Hardware\DATA;.\Hardware\Motor;.\Hardware\PWM_Time;.\Hardware\UART;.\Hardware\OLED_SPI;.\Hardware\TRANCE;.\Hardware\EXTI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -746,6 +746,16 @@
               <FileName>TRANCE.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\TRANCE\TRANCE.h</FilePath>
+            </File>
+            <File>
+              <FileName>EXTI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\EXTI\EXTI.c</FilePath>
+            </File>
+            <File>
+              <FileName>EXTI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\EXTI\EXTI.h</FilePath>
             </File>
           </Files>
         </Group>

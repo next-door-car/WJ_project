@@ -9,7 +9,7 @@ uint32_t Step_y;      //上下电机的总脉冲数
 uint8_t i=1;            //上下电机的总脉冲数统计
 int X_step;           //左右步数相关比例
 int Y_step;			  //上下步数相关比例
-
+uint8_t Dir=Bit_RESET; //初始方向
 
 /* 灭火控制状态机:启动 */
 ENUM_FireContorl_STATE FireModel = Fire_Start_Model; /* 控制状态机:是否启动 */
@@ -40,34 +40,51 @@ void FireControl(void)
 	}
 }
 
+/*串口发送AaB 开始运动*/
 ENUM_FireContorl_STATE Model_Fire_Start(void){
 	if(Fire_Start_Flag == 1)
 	{
-		Fire_Start_Flag=0;    //标志位重置
 		PWMFirst_config(100,72); /*开始运动*/
-		
 		EN_First(EN);  //左右电机使能
 		EN_Second(DISEN);//上下电机失能
-		MOTOR_First_Dirct(Right);
+		MOTOR_First_Dirct(Dir);  //顺时针
 		TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
 		TIM_Cmd(TIM3,DISABLE);	/*上下电机关闭*/
-		
+		Fire_Start_Flag=0;    //标志位重置
 		/*自由运动模式*/
 		while(1)  /*火焰标志位*/
 		{   
 			if(Fire_Show_Flag==1)
 			{
 				Fire_Show_Flag=0;
+				
+//				if(Dir==Bit_SET)
+//				Dir=Bit_RESET;
+//				else
+//				Dir=Bit_SET;
 				TIM_Cmd(TIM2,DISABLE);
 				break;
 			}
+			if(Dir_Flag==1)
+			{
+				Dir_Flag=0;
+				if(Dir==Bit_RESET)
+					Dir=Bit_SET;
+				else
+					Dir=Bit_RESET;
+				MOTOR_First_Dirct(Dir);
+				TIM_Cmd(TIM2,DISABLE);
+				//break;
+			}
+			
 			
 			
 			/*走多少碰到限位*/
 			
 			
 		}
-	//	FireModel = Fire_First_Model;
+		//Fire_Start_Flag=0;
+		//FireModel = Fire_First_Model;   //进入下一个模式
 	}
 	else
 	{
