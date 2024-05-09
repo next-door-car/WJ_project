@@ -4,6 +4,7 @@
 #include "GPIO.h"
 #include "UART.h"
 #include "PWM_Time.h"
+#include "Delay.h"
 typedef enum
 {
 	//左边环岛枚举阶段（-1）
@@ -15,12 +16,14 @@ typedef enum
 
 } ENUM_FireContorl_STATE;
 
-extern uint8_t Fire_Start_Flag;  /*上位机控制下位机运动*/
-extern uint8_t Fire_Show_Flag;   /*火焰出现标志*/
-extern uint8_t Water_Flag;		 /*火焰消灭标志*/
-extern uint8_t Dir_Flag;    	/*左右电机限位标志*/
-extern uint16_t X_Allcount; //从0-640 总需要的脉冲数
-extern uint16_t Y_Allcount; //从0-480 总需要的脉冲数
+extern uint8_t Fire_Start_Flag;   /*上位机控制下位机运动 AaB*/
+extern uint8_t Fire_Show_Flag;    /*火焰出现标志 AbB*/
+extern uint8_t MOTOR_Around_Flag; /*左右电机校准标志 AcB*/
+extern uint8_t MOTOR_Updown_Flag; /*上下电机校准标志 AdB*/
+extern uint8_t Water_Flag;		  /*火焰消灭标志*/
+extern uint8_t Dir_Flag;    	  /*左右电机限位标志*/
+extern uint32_t X_Allcount; //从0-640 总需要的脉冲数
+extern uint32_t Y_Allcount; //从0-480 总需要的脉冲数
 extern uint8_t TIM2_Flag;   //定时器2走完脉冲标志
 extern uint8_t TIM3_Flag;   //定时器3走完脉冲标志
 extern ENUM_FireContorl_STATE FireModel;

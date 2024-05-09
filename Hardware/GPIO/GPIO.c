@@ -9,6 +9,7 @@ void EN_config()
 	GPIO_Init_STRUCTURE.GPIO_Pin=GPIO_Pin_5;
 	GPIO_Init_STRUCTURE.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_Init_STRUCTURE); //左右电机
+	GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET);  //左右电机使能
 	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 	GPIO_InitTypeDef GPIO_Init_STRUCTUR;
@@ -16,6 +17,7 @@ void EN_config()
 	GPIO_Init_STRUCTUR.GPIO_Pin=GPIO_Pin_1;
 	GPIO_Init_STRUCTUR.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB,&GPIO_Init_STRUCTUR);  //上下电机
+	GPIO_WriteBit(GPIOB,GPIO_Pin_1,Bit_SET);  //左右电机使能
 }
 
 void EN_First(uint8_t config)

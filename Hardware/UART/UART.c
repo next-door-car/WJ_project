@@ -10,6 +10,8 @@ uint16_t usart_RxFlag;					//定义接收数据包标志位
 
 uint8_t Fire_Start_Flag = 0;            // 上位机控制左右电机
 uint8_t Fire_Show_Flag = 0;             /*火焰出现标志*/
+uint8_t MOTOR_Around_Flag = 0;          /*左右电机校准标志*/
+uint8_t MOTOR_Updown_Flag = 0;          /*上下电机校准标志*/
 uint8_t Water_Flag = 0;             	/*喷水完成标志*/
 
 uint8_t DATA_Flag = 0;       			/*接收坐标标志*/
@@ -197,6 +199,20 @@ void USART1_IRQHandler(void)
 			else if(RxData == 'c')
 			{
 			
+				MOTOR_Around_Flag = 1;    /*左右电机校准标志*/
+				Data_Length++; 
+				RxState = 2;
+			}
+			else if(RxData == 'd')
+			{
+			
+				MOTOR_Updown_Flag = 1;    /*上下电机校准标志*/
+				Data_Length++; 
+				RxState = 2;
+			}
+			else if(RxData == 'e')
+			{
+			
 				Water_Flag = 1;   		 /*火焰消灭标志*/
 				Data_Length++; 
 				RxState = 2;
@@ -239,6 +255,11 @@ void USART1_IRQHandler(void)
 	}
 }
 
+
+/*
+坐标格式示例：
+A1000 2000B
+*/
 void Uart_DATA(void){
 	trance_x = 0; trance_y = 0;
 	u16 len = Data_Length & 0x3fff; //得到此次接收到的数据长度(注意不包含末尾的 A 与 B )

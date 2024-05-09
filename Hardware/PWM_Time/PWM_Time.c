@@ -5,8 +5,8 @@ uint16_t First_i; //左右电机脉冲捕获计数
 uint16_t Second_i; //左右电机脉冲捕获计数
 uint8_t TIM2_Flag; //脉冲走完标志
 uint8_t TIM3_Flag; //脉冲走完标志
-uint16_t X_Allcount; //从0-640 总需要的脉冲数
-uint16_t Y_Allcount; //从0-480 总需要的脉冲数
+uint32_t X_Allcount=1000; //从0-640 总需要的脉冲数  测试为1000
+uint32_t Y_Allcount=1000; //从0-480 总需要的脉冲数	测试为1000
 
 void PWMFirst_config(int8_t ARR_First, int8_t PSC_First)
 {

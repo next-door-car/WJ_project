@@ -47,11 +47,7 @@ void EXTI15_10_IRQHandler(void)
 		/*如果出现数据乱跳的现象，可再次判断引脚电平，以避免抖动*/
 		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14) == 0)
 		{
-				
-			
-			Dir_Flag=1;
-			
-			
+			Dir_Flag=1;	
 		}
 		EXTI_ClearITPendingBit(EXTI_Line14);		//清除外部中断14号线的中断标志位
 													//中断标志位必须清除
