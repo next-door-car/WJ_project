@@ -27,14 +27,73 @@ void close(void)
 	GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET);
 }
 
+void Text_UART()
+{
+		if(Fire_Start_Flag==1)  //AaB
+		{
+			Fire_Start_Flag=0;
+			open();
+			while(1)
+			{
+				if(Fire_Show_Flag==1) //AbB
+				{
+					Fire_Show_Flag=0;
+					close();
+					break;
+				}
+				else
+				{
+					printf("AAB\r\n");  //发送AAB
+				}
+			}
+		}
 
+}
 
-void Text(int8_t arr , uint8_t DIr , int32_t step)
+void Text_v1(int8_t arr , uint8_t DIr)  //motor first
 {
 	MOTOR_First_Dirct(DIr);
 	PWMFirst_config(arr, 72);
-	Step_First=step;
 	EN_First(EN);
+	TIM_Cmd(TIM2,ENABLE);
+}
+void Text_v2(int8_t arr , uint8_t DIr)  //motor second
+{
+	MOTOR_Second_Dirct(DIr);
+	PWMSecond_config(arr, 72);
+	EN_Second(EN);
+	TIM_Cmd(TIM3,ENABLE);
+}
+void Text_motor_dir()
+{
+		MOTOR_First_Dirct(Right);  //顺时针
+		Step_First = 10000;
+		EN_First(EN);//左右电机失能
+		TIM_Cmd(TIM2,ENABLE); /*关闭左右电机*/
+		while(1)
+		{
+		if(TIM2_Flag==1)
+			{
+			TIM2_Flag=0;
+			EN_First(DISEN);//左右电机失能
+			TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
+			break;
+			}
+		}
+		MOTOR_First_Dirct(Left);  //顺时针
+		Step_First = 10000;
+		EN_First(EN);//左右电机失能
+		TIM_Cmd(TIM2,ENABLE); /*关闭左右电机*/
+		while(1)
+		{
+		if(TIM2_Flag==1)
+			{
+			TIM2_Flag=0;
+			EN_First(DISEN);//左右电机失能
+			TIM_Cmd(TIM2,DISABLE); /*关闭左右电机*/
+			break;
+			}
+		}
 }
 int main(void)
 {
@@ -46,18 +105,12 @@ int main(void)
 	MS_First_config();	
 	MS_Second_config();	
 	MS_config(); 
-	EN_config();  
-//	Text(125, Right ,10000);
-//	TIM_Cmd(TIM2,ENABLE);
+	EN_config(); 
+	Water();
 
 	while(1){
-//		if(Dir_Flag==1)
-//		{
-//			Dir_Flag=0;
-//		    open();
-//			printf("nihaonihao\r\n");	
-//		}
-	  FireControl();
+
+//	  FireControl();
     }
 	
 }

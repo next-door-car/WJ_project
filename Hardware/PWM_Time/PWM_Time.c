@@ -8,7 +8,7 @@ uint8_t TIM3_Flag; //脉冲走完标志
 uint32_t X_Allcount=1000; //从0-640 总需要的脉冲数  测试为1000
 uint32_t Y_Allcount=1000; //从0-480 总需要的脉冲数	测试为1000
 
-void PWMFirst_config(int8_t ARR_First, int8_t PSC_First)
+void PWMFirst_config(int16_t ARR_First, int16_t PSC_First)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
 	TIM_InternalClockConfig(TIM2);	
@@ -51,7 +51,7 @@ void PWMFirst_config(int8_t ARR_First, int8_t PSC_First)
 	TIM_Cmd(TIM2,DISABLE);
 }
 
-void PWMSecond_config(int8_t ARR_Second, int8_t PSC_Second)
+void PWMSecond_config(int16_t ARR_Second, int16_t PSC_Second)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
 	TIM_InternalClockConfig(TIM3);	
@@ -115,7 +115,7 @@ void TIM2_IRQHandler(void)
 
 void TIM3_IRQHandler(void)
 { 	 
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
 	{
 		if(Second_i>=Step_Second)
 		{
@@ -126,7 +126,7 @@ void TIM3_IRQHandler(void)
 		}
 		else
 			Second_i++;
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);  //清除更新中断标志  
+		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);  //清除更新中断标志  
 		
     }
 }

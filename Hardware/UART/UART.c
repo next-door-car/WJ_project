@@ -7,7 +7,6 @@
 char usart_RxPacket[100];				//定义接收数据包数组
 uint8_t USART_GetRxFlag(void);
 uint16_t usart_RxFlag;					//定义接收数据包标志位
-
 uint8_t Fire_Start_Flag = 0;            // 上位机控制左右电机
 uint8_t Fire_Show_Flag = 0;             /*火焰出现标志*/
 uint8_t MOTOR_Around_Flag = 0;          /*左右电机校准标志*/
@@ -199,18 +198,11 @@ void USART1_IRQHandler(void)
 			else if(RxData == 'c')
 			{
 			
-				MOTOR_Around_Flag = 1;    /*左右电机校准标志*/
+				MOTOR_Updown_Flag = 1;    /*上下电机坐标校准标志*/
 				Data_Length++; 
 				RxState = 2;
 			}
 			else if(RxData == 'd')
-			{
-			
-				MOTOR_Updown_Flag = 1;    /*上下电机校准标志*/
-				Data_Length++; 
-				RxState = 2;
-			}
-			else if(RxData == 'e')
 			{
 			
 				Water_Flag = 1;   		 /*火焰消灭标志*/
@@ -225,7 +217,11 @@ void USART1_IRQHandler(void)
 			}
 			//Data_Length++;              //长度自增
 			if(Data_Length==10)
+			{
 				RxState = 2;
+				MOTOR_Around_Flag=1;
+			}
+				
 		}
 		
 		/*当前状态为2，接收数据包包尾*/
@@ -235,10 +231,10 @@ void USART1_IRQHandler(void)
 			{	
 				Data_Length++;
 				if(Data_Length==3)
-					printf("正确接收\n");
+					printf("正确接收\r\n");
 				else
 				{
-					printf("接收坐标\n");
+					printf("接收坐标\r\n");
 					Uart_DATA();
 				}
 					

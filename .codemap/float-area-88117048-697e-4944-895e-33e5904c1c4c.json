@@ -1,0 +1,219 @@
+{
+  "type": "float-area",
+  "_widgets": [
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///c%3A/Users/%E5%8D%8E%E4%B8%BA/Desktop/text/User/main.c",
+              "floatAreaId": "88117048-697e-4944-895e-33e5904c1c4c"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": true,
+                "selectionStart": {
+                  "lineNumber": 104,
+                  "column": 2
+                },
+                "position": {
+                  "lineNumber": 104,
+                  "column": 17
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 91,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -15
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "collapsedRegions": [],
+                "lineCount": 126,
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      }
+    ],
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///c%3A/Users/%E5%8D%8E%E4%B8%BA/Desktop/text/Hardware/GPIO/GPIO.c",
+              "floatAreaId": "88117048-697e-4944-895e-33e5904c1c4c"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": true,
+                "selectionStart": {
+                  "lineNumber": 34,
+                  "column": 6
+                },
+                "position": {
+                  "lineNumber": 34,
+                  "column": 21
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 26,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -2
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "collapsedRegions": [],
+                "lineCount": 121,
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "height": 450,
+        "spacing": 0
+      },
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///c%3A/Users/%E5%8D%8E%E4%B8%BA/Desktop/text/Hardware/GPIO/GPIO.h",
+              "floatAreaId": "88117048-697e-4944-895e-33e5904c1c4c"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 27,
+                  "column": 6
+                },
+                "position": {
+                  "lineNumber": 27,
+                  "column": 6
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 17,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -4
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "collapsedRegions": [],
+                "lineCount": 33,
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "height": 450,
+        "spacing": 0
+      }
+    ]
+  ],
+  "_widths": [
+    600,
+    600
+  ],
+  "_modelData": {
+    "connections": [
+      {
+        "startWord": {
+          "uri": "/c:/Users/华为/Desktop/text/User/main.c",
+          "lineNumber": 108,
+          "startColumn": 2,
+          "endColumn": 7,
+          "word": "Water",
+          "x": 51,
+          "y": 340.33333587646484,
+          "hide": true,
+          "height": 19,
+          "width": 1,
+          "clientX": 2,
+          "clientY": 340.33333587646484
+        },
+        "endWord": {
+          "uri": "/c:/Users/华为/Desktop/text/Hardware/GPIO/GPIO.h",
+          "lineNumber": 29,
+          "startColumn": 6,
+          "endColumn": 11,
+          "endLineNumber": 29,
+          "word": "",
+          "x": 51,
+          "y": 256.33333587646484,
+          "hide": true,
+          "height": 19,
+          "width": 1,
+          "clientX": 2,
+          "clientY": 256.33333587646484
+        },
+        "id": "b21bd851-8d6d-44d5-8e2b-635fc089e222"
+      },
+      {
+        "startWord": {
+          "uri": "/c:/Users/华为/Desktop/text/User/main.c",
+          "lineNumber": 104,
+          "startColumn": 2,
+          "endColumn": 17,
+          "word": "MS_First_config",
+          "x": 51,
+          "y": 264.33333587646484,
+          "hide": true,
+          "height": 19,
+          "width": 1,
+          "clientX": 2,
+          "clientY": 264.33333587646484
+        },
+        "endWord": {
+          "uri": "/c:/Users/华为/Desktop/text/Hardware/GPIO/GPIO.c",
+          "lineNumber": 34,
+          "startColumn": 6,
+          "endColumn": 21,
+          "endLineNumber": 34,
+          "word": "",
+          "x": 51,
+          "y": 182.33333587646484,
+          "hide": true,
+          "height": 19,
+          "width": 1,
+          "clientX": 2,
+          "clientY": 182.33333587646484
+        },
+        "id": "35d49316-ced2-49cf-a1a9-f7ee2c07a76c"
+      }
+    ],
+    "annotations": [],
+    "highlights": []
+  }
+}
