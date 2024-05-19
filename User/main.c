@@ -53,21 +53,21 @@ void Text_UART()
 void Text_v1(int8_t arr , uint8_t DIr)  //motor first
 {
 	MOTOR_First_Dirct(DIr);
-	PWMFirst_config(arr, 72);
+	PWMFirst_config(arr, 400);
 	EN_First(EN);
 	TIM_Cmd(TIM2,ENABLE);
 }
-void Text_v2(int8_t arr , uint8_t DIr)  //motor second
+void Text_v2(int16_t arr , int16_t DIr)  //motor second
 {
 	MOTOR_Second_Dirct(DIr);
-	PWMSecond_config(arr, 72);
+	PWMSecond_config(arr, 400);
 	EN_Second(EN);
 	TIM_Cmd(TIM3,ENABLE);
 }
 void Text_motor_dir()
 {
 		MOTOR_First_Dirct(Right);  //顺时针
-		Step_First = 10000;
+		Step_First = 3000;
 		EN_First(EN);//左右电机失能
 		TIM_Cmd(TIM2,ENABLE); /*关闭左右电机*/
 		while(1)
@@ -81,7 +81,7 @@ void Text_motor_dir()
 			}
 		}
 		MOTOR_First_Dirct(Left);  //顺时针
-		Step_First = 10000;
+		Step_First = 3000;
 		EN_First(EN);//左右电机失能
 		TIM_Cmd(TIM2,ENABLE); /*关闭左右电机*/
 		while(1)
@@ -101,16 +101,21 @@ int main(void)
 	USART_init();
 	EXTI_init();
 	GPIO_init();
+	limit_init();
 	DIR_config();
 	MS_First_config();	
 	MS_Second_config();	
 	MS_config(); 
 	EN_config(); 
 	Water();
-
 	while(1){
+//		if(limit_read(Limit_Right) == 1)
+//		{
+//open();
 
-//	  FireControl();
+//		}
+//Text_motor_dir();
+	  FireControl();
     }
 	
 }

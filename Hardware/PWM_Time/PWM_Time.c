@@ -3,6 +3,8 @@
 
 uint16_t First_i; //左右电机脉冲捕获计数
 uint16_t Second_i; //左右电机脉冲捕获计数
+uint16_t Limit_Around_Count; //左右限位复位计数
+uint16_t Limit_Bunk_Count;	 //左右限位复位计数
 uint8_t TIM2_Flag; //脉冲走完标志
 uint8_t TIM3_Flag; //脉冲走完标志
 uint32_t X_Allcount=1000; //从0-640 总需要的脉冲数  测试为1000
@@ -68,7 +70,7 @@ void PWMSecond_config(int16_t ARR_Second, int16_t PSC_Second)
 	TIMSTRUCTURE.TIM_Period=ARR_Second-1;//ARR
 	TIMSTRUCTURE.TIM_Prescaler=PSC_Second-1;//PSC
 	TIMSTRUCTURE.TIM_RepetitionCounter=0;
-	TIM_TimeBaseInit(TIM2,&TIMSTRUCTURE);	
+	TIM_TimeBaseInit(TIM3,&TIMSTRUCTURE);	
 	//初始化输出比较单元
 	TIM_OCInitTypeDef TIMstructure;
 	TIM_OCStructInit(&TIMstructure);//负初始值
@@ -99,6 +101,9 @@ void TIM2_IRQHandler(void)
 { 	 
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //是更新中断
 	{
+		Limit_Around_Count++;
+		if(Limit_Around_Count>=10000)
+		Limit_Around_Count=0;
 		if(First_i>=Step_First)
 		{
 			First_i=0;
@@ -117,6 +122,9 @@ void TIM3_IRQHandler(void)
 { 	 
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
 	{
+		Limit_Bunk_Count++;
+		if(Limit_Bunk_Count>=10000)
+		Limit_Bunk_Count=0;
 		if(Second_i>=Step_Second)
 		{
 			Second_i=0;

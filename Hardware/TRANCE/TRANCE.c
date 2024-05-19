@@ -14,6 +14,7 @@ uint8_t Dir=Bit_RESET; //初始方向 顺时针
 /* 灭火控制状态机:启动 */
 ENUM_FireContorl_STATE FireModel = Fire_Start_Model; /* 控制状态机:是否启动 */
 static ENUM_FireContorl_STATE Model_Fire_Start(void);  /*是否启动巡逻*/
+static ENUM_FireContorl_STATE Model_Fire_Reset(void);  /*开启复位校准*/
 static ENUM_FireContorl_STATE Model_Fire_First(void);  /*左右电机启动校准*/
 static ENUM_FireContorl_STATE Model_Fire_Second(void); /*上下电机启动校准*/
 static ENUM_FireContorl_STATE Model_Fire_Third(void);  /*喷水*/
@@ -23,16 +24,18 @@ static ENUM_FireContorl_STATE Model_Fire_Fourth(void);  /*第一电机继续运�
 void FireControl(void)
 {
 	static ENUM_FireContorl_STATE FireModel = Fire_Start_Model;
-	//FireModel = Fire_Third_Model;
+	//FireModel = Fire_Second_Model;
 	switch (FireModel) 
 	{
 	case Fire_Start_Model:
 		 FireModel = Model_Fire_Start();  
 			break;
-
+	case Fire_Reset_Model:  
+         FireModel = Model_Fire_Reset();
+		 	break;
     case Fire_First_Model:  
          FireModel = Model_Fire_First(); 
-
+			break;
 	case Fire_Second_Model:  
          FireModel = Model_Fire_Second(); 
 			break;
@@ -49,9 +52,14 @@ void FireControl(void)
 
 /*串口发送AaB 开始运动*/
 ENUM_FireContorl_STATE Model_Fire_Start(void){
+
 	if(Fire_Start_Flag == 1)     //AaB
 	{
-		PWMFirst_config(125,72); /*开始运动*/
+		printf("first_mode\n");
+		printf("\n");
+		printf("\n");
+		printf(" AbB stop\n");
+		PWMFirst_config(125,400); /*开始运动*/
 		EN_First(EN);  //左右电机使能
 		EN_Second(DISEN);//上下电机失能
 		MOTOR_First_Dirct(Dir);  //顺时针
@@ -67,23 +75,20 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 				TIM_Cmd(TIM2,DISABLE);
 				break;
 			}    //火焰出现，进入下一个状态
-		    else
-			{
-				if(Dir_Flag==1)
-				{
-					Dir_Flag=0;
-					if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14) == 0)
-					{
-						TIM_Cmd(TIM2,DISABLE);
-						if(Dir==Bit_RESET)
-						Dir=Bit_SET;
-						else
-						Dir=Bit_RESET;
-						MOTOR_First_Dirct(Dir);
-						TIM_Cmd(TIM2,ENABLE);			
-					}
-				}
-			}	
+		    // else
+			// {
+			// 	if (limit_read(Limit_Left) == 0 || limit_read(Limit_Right) == 0)    //达到限位
+			// 	{
+			// 			TIM_Cmd(TIM2,DISABLE);
+			// 			if(Dir==Bit_RESET)
+			// 			Dir=Bit_SET;
+			// 			else
+			// 			Dir=Bit_RESET;
+			// 			MOTOR_First_Dirct(Dir);
+			// 			TIM_Cmd(TIM2,ENABLE);			
+			// 	}
+				
+			// }	
 		}
 		Fire_Start_Flag=0;
 		FireModel = Fire_First_Model;   //进入下一个模式
@@ -102,19 +107,31 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 	return FireModel;
 }
 
+static ENUM_FireContorl_STATE Model_Fire_Reset(void)
+{
+	Motor_Reset_Around(); //左右电机复位
+	Motor_Reset_Bunk();   //上下电机复位
+	FireModel = Fire_First_Model;   //进入下一个模式
+	return FireModel;
+}
+
 /*315<trance_x<325*/
 /*235<trance_y<245*/
 /*左右电机与上下电机无微调*/
 static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
 
 	printf("second_mode\r\n");
-	
+	printf("\n");
 	/*需要先发送坐标，再发送校准标志
 	如：
 	A1000 2000B
 	AcB
 	*/
-	printf("请发送坐标\r\n");
+	printf("sent coordinate\r\n");   /*发送坐标*/
+	printf("\n");
+	printf(" AcB\r\n");
+	printf("\n");
+	MOTOR_Around_Flag=0;
 	while(1)
 	{
 		if(MOTOR_Around_Flag==1) 
@@ -123,7 +140,8 @@ static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
 			break;
 		}
 	}
-	printf("坐标接收成功\r\n");
+	printf("\n");
+	printf("coordinate received\r\n");  /*接收坐标*/
 	
 	
 	if(TX > trance_x)
@@ -175,15 +193,15 @@ static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
 	
 	printf("three_mode\r\n");
 	printf("\n");
-	printf("发送AcB\r\n");
+	printf(" AdB\r\n");
 	printf("\n");
 	//****************************************//
 	/*发送校准标志
 	如果需要校准坐标
 	需要先发送坐标
-	AcB
+	AdB
 	*/
-	PWMSecond_config(125,72); 			//初始化
+	PWMSecond_config(125*8,400); 			    //初始化 频率差了8倍 
 	while(1)
 	{
 		if(MOTOR_Updown_Flag==1)
@@ -193,7 +211,8 @@ static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
 		}
 	}
 	printf("\n");
-	printf("坐标接收成功\r\n");
+	printf(" AdB\n");
+	printf("coordinate received\r\n");
 	//****************************************//
 	if(TY > trance_y)
 	{
@@ -244,10 +263,12 @@ static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
 
 static ENUM_FireContorl_STATE Model_Fire_Third(void){
 	//*************************************************
-	PWMFirst_config(125,72);
-	PWMSecond_config(125,72);
+	// PWMFirst_config(125,400);
+	// PWMSecond_config(125,400);
 	//************************************************
 	printf("four_mode\n");
+	printf("\n");
+	printf("灭火标志AeB\n");
 	TIM2_Flag=0;
 	TIM3_Flag=0;
 	GPIO_WriteBit(GPIOB,GPIO_Pin_12,Bit_SET); //喷水
@@ -332,7 +353,6 @@ static ENUM_FireContorl_STATE Model_Fire_Third(void){
 			EN_Second(DISEN);
 			TIM_Cmd(TIM2,DISABLE); 			/*左右电机失能*/
 			TIM_Cmd(TIM3,DISABLE);			/*上下电机失能*/ 	
-			//FireModel = Fire_Fourth_Model; /*进入第四状态*/
 			break;
 		}
 		Step_First=640;
@@ -344,6 +364,8 @@ static ENUM_FireContorl_STATE Model_Fire_Third(void){
 }
 
 ENUM_FireContorl_STATE Model_Fire_Fourth(void){
+	printf("five_mode\n");
+	EN_First(EN);	
 	TIM_Cmd(TIM2,ENABLE); 			/*左右电机使能*/	
 	if(Step_y>0)					/*向下运动*/
 	{
@@ -353,7 +375,7 @@ ENUM_FireContorl_STATE Model_Fire_Fourth(void){
 	{
 		Step_y=-1*Step_y;
 		MOTOR_Second_Dirct(UP);
-	}
+	}	 
 	Step_Second=Step_y;
 	EN_Second(EN);							//上下电机使能
 	TIM_Cmd(TIM3,ENABLE); 					/*上下电机使能*/

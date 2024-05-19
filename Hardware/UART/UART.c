@@ -198,11 +198,18 @@ void USART1_IRQHandler(void)
 			else if(RxData == 'c')
 			{
 			
-				MOTOR_Updown_Flag = 1;    /*上下电机坐标校准标志*/
+				MOTOR_Around_Flag = 1;    /*上下电机坐标校准标志*/
 				Data_Length++; 
 				RxState = 2;
 			}
 			else if(RxData == 'd')
+			{
+			
+				MOTOR_Updown_Flag = 1;    /*上下电机坐标校准标志*/
+				Data_Length++; 
+				RxState = 2;
+			}
+			else if(RxData == 'e')
 			{
 			
 				Water_Flag = 1;   		 /*火焰消灭标志*/
@@ -219,7 +226,6 @@ void USART1_IRQHandler(void)
 			if(Data_Length==10)
 			{
 				RxState = 2;
-				MOTOR_Around_Flag=1;
 			}
 				
 		}
