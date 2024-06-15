@@ -66,14 +66,14 @@ void Text_UART()
 void Text_v1(int8_t arr , uint8_t DIr)  //motor first
 {
 	MOTOR_First_Dirct(DIr);
-	PWMFirst_config(arr, 300);
+	PWMFirst_config(arr, 400);
 	EN_First(EN);
 	TIM_Cmd(TIM2,ENABLE);
 }
 void Text_v2(int16_t arr , int16_t DIr)  //motor second
 {
 	MOTOR_Second_Dirct(DIr);
-	PWMSecond_config(arr, 300);
+	PWMSecond_config(arr, 400);
 	EN_Second(EN);
 	TIM_Cmd(TIM3,ENABLE);
 }
@@ -126,19 +126,6 @@ int main(void)
 
 	//Text_v2(125 , UP);  //motor second
 	while(1){
-        //Text_UART();
-//        if(Down_Flag==1)
-//            open();
-//		if(limit_read(Limit_Right) == 1)
-//		{
-//open();
-//		}
-//       Motor_Step_Around(Right);
-//        //delay_ms(300);
-//       Motor_Step_Around(Left);
-//        Motor_Step_Bunk(UP);
-//        Motor_Step_Bunk(DOWN);
-//Text_motor_dir();
         
 	FireControl();
 

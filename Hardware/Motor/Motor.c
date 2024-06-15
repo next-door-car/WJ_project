@@ -57,7 +57,7 @@ void Motor_Reset_Around(uint16_t CCR)
 void Motor_Reset_Bunk(uint16_t CCR)
 {
         uint16_t Bunk_Sum; 
-        PWMSecond_config(125*8,CCR); /*开始运动*/
+        PWMSecond_config(125*8,400); /*开始运动*/
 		MOTOR_Second_Dirct(UP);  //向上
         EN_Second(EN);  //上下电机使能
 		TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
@@ -111,7 +111,8 @@ void Motor_StepLeft_Around(int Dir)
         MOTOR_First_Dirct(Dir); 
         EN_First(EN);  //上下电机使能
         Step_First=2000; //一步180度
-		TIM_Cmd(TIM2,ENABLE);	/*上下电机打开*/
+        
+        TIM_Cmd(TIM2,ENABLE);	/*上下电机打开*/
         Around_StepLeft_Start(Dir);       
 
 }    
@@ -121,6 +122,7 @@ void Motor_StepRight_Around(int Dir)
         MOTOR_First_Dirct(Dir); 
         EN_First(EN);  //上下电机使能
         Step_First=2000; //一步180度
+        
 		TIM_Cmd(TIM2,ENABLE);	/*上下电机打开*/
         Around_StepRight_Start(Dir);       
 }   
@@ -228,8 +230,8 @@ void Around_StepLeft_Start(int Dir)
     {     
         if(Left_Flag==1) //到达限位
          {
-               Step_First=0;
-               Left_Flag=0;
+                Left_Flag=0;
+                Step_First=0;
                 EN_First(DISEN);
                 TIM_Cmd(TIM2,DISABLE);	/*左右电机关闭*/
                 if(Dir==Right)

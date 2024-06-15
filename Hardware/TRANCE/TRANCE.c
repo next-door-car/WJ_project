@@ -23,9 +23,9 @@ static ENUM_FireContorl_STATE Model_Fire_Fourth(void);  /*第一电机继续运�
 /*状态机进行模式的选取*/
 void FireControl(void)
 {
-	//static ENUM_FireContorl_STATE FireModel = Fire_Reset_Model;
+	ENUM_FireContorl_STATE FireModel = Fire_Reset_Model;
 	//ENUM_FireContorl_STATE FireModel = Fire_Third_Model;
-	FireModel = Fire_Start_Model;
+	//FireModel = Fire_Start_Model;
 	switch (FireModel) 
 	{
 	case Fire_Reset_Model:  
@@ -54,9 +54,21 @@ void FireControl(void)
 
 static ENUM_FireContorl_STATE Model_Fire_Reset(void)
 {
-	Motor_Reset_Around(400); //左右电机复位
+	//Motor_Reset_Around(400); //左右电机复位
 	Motor_Reset_Bunk(400);   //上下电机复位
-	FireModel = Fire_Start_Model;   //进入下一个模式
+//    while(1)
+//    {
+//        if(Fire_Start_Flag==1)
+//        {
+//            Fire_Start_Flag=0; //复位完成标志AaB
+//            break;
+//        }
+//        else
+//        {
+//            printf("AAB");//向上发
+//        }
+//    }
+//	FireModel = Fire_Start_Model;   //进入下一个模式
 	return FireModel;
 }
 
@@ -67,13 +79,13 @@ ENUM_FireContorl_STATE Model_Fire_Start(void){
 //	printf("\n");
 //	printf("\n");
 //	printf(" AbB stop\n");
+    
 	PWMFirst_config(125,300); /*开始运动*/
 	EN_First(EN);  //左右电机使能
 	EN_Second(DISEN);//上下电机失能
 	MOTOR_First_Dirct(Dir);  //顺时针
 	TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
 	TIM_Cmd(TIM3,DISABLE);	/*上下电机关闭*/
-	Fire_Start_Flag=0;    //标志位重置
 	/*自由运动模式*/
 	while(1)  /*火焰标志位*/
 	{   
@@ -126,24 +138,31 @@ static ENUM_FireContorl_STATE Model_Fire_First(void){   //左右电机校准
     
 	while(1)  /*火焰标志位*/
 	{  
-        if(trance_x<TX0)
+        if(trance_x==0)
         {
+            TIM_Cmd(TIM2,DISABLE);
+        }
+        else
+        {
+            if(trance_x<TX0)
+            {
               Motor_StepLeft_Around(Right);    //向右走一步  
-        }
-        if(trance_x>=TX1)
-        {
+            }
+            if(trance_x>=TX1)
+            {
                Motor_StepRight_Around(Left);    //向左走一步   
-        
+            }
+            if(trance_x<=TX1&&trance_x>=TX0)
+                break;
         }
-        if(trance_x<=TX1&&trance_x>=TX0)
-              break;   
+           
     }
     //FireModel = Fire_Second_Model;
 	return FireModel;
 }
 
 static ENUM_FireContorl_STATE Model_Fire_Second(void){  //上下电机校准
-   
+    while(1);
     PWMSecond_config(125*8,800); /*开始运动*/
 	/*自由运动模式*/
 	while(1)  /*火焰标志位*/
