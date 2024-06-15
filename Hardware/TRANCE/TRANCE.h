@@ -21,9 +21,14 @@ typedef enum
 extern uint8_t Fire_Start_Flag;   /*上位机控制下位机运动 AaB*/
 extern uint8_t Fire_Show_Flag;    /*火焰出现标志 AbB*/
 extern uint8_t MOTOR_Around_Flag; /*左右电机校准标志 AcB*/
+extern uint8_t MOTOR_Around_OneFlag;  /*左右电机再校准标志 AfB*/
+extern uint8_t MOTOR_Around_TwoFlag;  /*左右电机再校准标志 AgB*/
 extern uint8_t MOTOR_Updown_Flag; /*上下电机校准标志 AdB*/
 extern uint8_t Water_Flag;		  /*火焰消灭标志*/
-extern uint8_t Dir_Flag;    	  /*左右电机限位标志*/
+extern uint8_t Left_Flag;    	  /*左电机限位标志*/
+extern uint8_t Right_Flag;    	  /*右电机限位标志*/
+extern uint8_t Up_Flag;    	  	  /*上电机限位标志*/
+extern uint8_t Down_Flag;    	  /*下电机限位标志*/
 extern uint32_t X_Allcount; //从0-640 总需要的脉冲数
 extern uint32_t Y_Allcount; //从0-480 总需要的脉冲数
 extern uint16_t Limit_Around_Count;  //左右限位复位计数

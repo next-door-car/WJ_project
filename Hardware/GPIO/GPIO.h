@@ -12,8 +12,8 @@
 
 #define Right 	Bit_SET
 #define Left	Bit_RESET
-#define UP 		Bit_SET
-#define DOWN	Bit_RESET
+#define UP 		Bit_RESET
+#define DOWN	Bit_SET
 
 #define Limit_Right 0
 #define Limit_Left  1
@@ -33,7 +33,7 @@ void MS_config();
 void MS_First_config();
 void MS_Second_config();
 void Water();
-void limit_init(void);
-int limit_read(uint8_t limit);
+// void limit_init(void);
+// int limit_read(uint8_t limit);
 
 #endif 
