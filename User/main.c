@@ -120,8 +120,8 @@ int main(void)
 	MS_config(); 
 	EN_config(); 
 	Water();
+	PWMFirst_config(125,400); /*开始运动*/ 
     
-    //open();
 	//Text_v1(125, Right);  //motor first
 
 	//Text_v2(125 , UP);  //motor second

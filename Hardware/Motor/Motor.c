@@ -106,40 +106,40 @@ void Motor_Reset_Bunk(uint16_t CCR)
 }//上下电机从中心到限位Bunk_Sum
 
 
-void Motor_StepLeft_Around(int Dir) 
+void Motor_StepLeft_Around(int Dir , int16_t Step_count) 
 {    
         MOTOR_First_Dirct(Dir); 
         EN_First(EN);  //上下电机使能
-        Step_First=2000; //一步180度
+        Step_First=Step_count; //一步180度2000
         
         TIM_Cmd(TIM2,ENABLE);	/*上下电机打开*/
         Around_StepLeft_Start(Dir);       
 
 }    
 
-void Motor_StepRight_Around(int Dir) 
+void Motor_StepRight_Around(int Dir , int16_t Step_count) 
 {    
         MOTOR_First_Dirct(Dir); 
         EN_First(EN);  //上下电机使能
-        Step_First=2000; //一步180度
+        Step_First=Step_count; //一步180度
         
 		TIM_Cmd(TIM2,ENABLE);	/*上下电机打开*/
         Around_StepRight_Start(Dir);       
 }   
 
-void Motor_StepUp_Bunk(int Dir)  //频率与方向
+void Motor_StepUp_Bunk(int Dir , int16_t Step_count)  //频率与方向
 {
 		MOTOR_Second_Dirct(Dir); 
         EN_Second(EN);  //上下电机使能
-        Step_Second=160; //一步36度
+        Step_Second=Step_count; //一步36度
 		TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
         Bunk_StepUp_Start(Dir);
 }
-void Motor_StepDown_Bunk(int Dir)  //频率与方向
+void Motor_StepDown_Bunk(int Dir , int16_t Step_count)  //频率与方向
 {
 		MOTOR_Second_Dirct(Dir); 
         EN_Second(EN);  //上下电机使能
-        Step_Second=160; //一步36度
+        Step_Second=Step_count; //一步36度
 		TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
         Bunk_StepDown_Start(Dir);
 }
@@ -176,6 +176,7 @@ void Bunk_StepUp_Start(int Dir)
          if(TIM3_Flag==1)
        {
             TIM3_Flag=0;
+            Step_Second=0;
             EN_Second(DISEN);//上下电机失能
             TIM_Cmd(TIM3,DISABLE); /*关闭上下电机*/
             break;
@@ -216,6 +217,7 @@ void Bunk_StepDown_Start(int Dir)
          if(TIM3_Flag==1)
        {
             TIM3_Flag=0;
+            Step_Second=0;
             EN_Second(DISEN);//上下电机失能
             TIM_Cmd(TIM3,DISABLE); /*关闭上下电机*/
             break;
@@ -313,4 +315,12 @@ void Around_StepRight_Start(int Dir)
       }
         
 
+}
+
+double ABS(int16_t x ,int16_t y)
+{
+    if(x>y)
+    return x-y;
+    else
+    return y-x;
 }

@@ -16,15 +16,18 @@ extern uint8_t Down_Flag;    	  /*下电机限位标志*/
 
 void Motor_Reset_Around(uint16_t CCR);  //左右电机复位
 void Motor_Reset_Bunk(uint16_t CCR);    //上下电机复位
-void Motor_StepLeft_Around(int Dir);    //左一步
-void Motor_StepRight_Around(int Dir);   //右一步
-void Motor_StepUp_Bunk(int Dir);        //上一步
-void Motor_StepDown_Bunk(int Dir);      //下一步
+void Motor_StepLeft_Around(int Dir , int16_t Step_count);    //左一步
+void Motor_StepRight_Around(int Dir , int16_t Step_count);   //右一步
+void Motor_StepUp_Bunk(int Dir , int16_t Step_count);        //上一步
+void Motor_StepDown_Bunk(int Dir , int16_t Step_count);      //下一步
 
 void Around_StepLeft_Start(int Dir);
 void Around_StepRight_Start(int Dir);
 void Bunk_StepUp_Start(int Dir);
 void Bunk_StepDown_Start(int Dir);
+
+double ABS(int16_t x ,int16_t y); //进行绝对值运算
+
     
 
 #endif 
