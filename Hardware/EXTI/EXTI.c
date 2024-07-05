@@ -1,7 +1,10 @@
 #include "stm32f10x.h"                  // Device header
 #include "EXTI.h"
 #include "UART.h"
-uint8_t Dir_Flag; 
+uint8_t Left_Flag;                     // 左边限位PB13
+uint8_t Right_Flag; 				   // 右边限位PB14
+uint8_t Up_Flag;					   // 上边限位PB15
+uint8_t Down_Flag;					   // 下边限位PA8
 
 /*
 PB13 左边限位
@@ -55,24 +58,65 @@ void EXTI_init(void)
 	NVIC_InitTypeDef NVIC_InitStructure;						//定义结构体变量
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;		//选择配置NVIC的EXTI15_10线
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;				//指定NVIC线路使能
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;	//指定NVIC线路的抢占优先级为1
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;			//指定NVIC线路的响应优先级为1
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	//指定NVIC线路的抢占优先级为1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;			//指定NVIC线路的响应优先级为1
 	NVIC_Init(&NVIC_InitStructure);								//将结构体变量交给NVIC_Init，配置NVIC外设
 
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;		//选择配置NVIC的EXTI8线
+	NVIC_Init(&NVIC_InitStructure);	
 
 }
 
 
 void EXTI15_10_IRQHandler(void)
 {
-	if (EXTI_GetITStatus(EXTI_Line14) == SET)		//判断是否是外部中断14号线触发的中断
+	if (EXTI_GetITStatus(EXTI_Line13) == SET)		//判断是否是外部中断14号线触发的中断
+	{
+		/*如果出现数据乱跳的现象，可再次判断引脚电平，以避免抖动*/
+		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13) == 0)
+		{
+			Left_Flag=1;	
+		}
+		EXTI_ClearITPendingBit(EXTI_Line13);		//清除外部中断13号线的中断标志位
+													//中断标志位必须清除
+													//否则中断将连续不断地触发，导致主程序卡死
+	}
+	else if(EXTI_GetITStatus(EXTI_Line14) == SET)
 	{
 		/*如果出现数据乱跳的现象，可再次判断引脚电平，以避免抖动*/
 		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14) == 0)
 		{
-			Dir_Flag=1;	
+			Right_Flag=1;	
 		}
 		EXTI_ClearITPendingBit(EXTI_Line14);		//清除外部中断14号线的中断标志位
+													//中断标志位必须清除
+													//否则中断将连续不断地触发，导致主程序卡死
+	}
+	else if(EXTI_GetITStatus(EXTI_Line15) == SET)
+	{
+		/*如果出现数据乱跳的现象，可再次判断引脚电平，以避免抖动*/
+		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15) == 0)
+		{
+			Up_Flag=1;	
+		}
+		EXTI_ClearITPendingBit(EXTI_Line15);		//清除外部中断15号线的中断标志位
+													//中断标志位必须清除
+													//否则中断将连续不断地触发，导致主程序卡死
+	}
+
+
+}
+    
+void EXTI9_5_IRQHandler(void)
+{
+	if (EXTI_GetITStatus(EXTI_Line8) == SET)		//判断是否是外部中断8号线触发的中断
+	{
+		/*如果出现数据乱跳的现象，可再次判断引脚电平，以避免抖动*/
+		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_8) == 0)
+		{
+			Down_Flag=1;	
+		}
+		EXTI_ClearITPendingBit(EXTI_Line8);		//清除外部中断8号线的中断标志位
 													//中断标志位必须清除
 													//否则中断将连续不断地触发，导致主程序卡死
 	}

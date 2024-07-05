@@ -2,25 +2,23 @@
 #include "Motor.h"
 
 
-void Motor_Reset_Around(void)
+void Motor_Reset_Around(uint16_t CCR)
 {
-    GPIO_init();
         uint16_t Around_Sum;
-        // PWMFirst_config(200,72); /*开始运动*/
-		// MOTOR_First_Dirct(Right);  //顺时针
-        // EN_First(EN);  //左右电机使能
-		// TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
-        printf("start\r\n");
+        PWMFirst_config(125,CCR); /*开始运动*/
+		MOTOR_First_Dirct(Right);  //顺时针
+        EN_First(EN);  //左右电机使能
+		TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
+        //printf("start\r\n");
         while (1)
         {
-            if(limit_read(Limit_Right) == 1)     //右限位
+            if(Left_Flag == 1)     //左限位
             {
-                open();
-                // printf("1\r\n");
-                // EN_First(DISEN);
-                // TIM_Cmd(TIM2,DISABLE);
-                // Limit_Around_Count=0;
-                // break;
+                Left_Flag=0;
+                EN_First(DISEN);
+                TIM_Cmd(TIM2,DISABLE); 
+                Limit_Around_Count=0;
+                break;
             }
         }
         MOTOR_First_Dirct(Left);  //逆时针
@@ -28,10 +26,12 @@ void Motor_Reset_Around(void)
         TIM_Cmd(TIM2,ENABLE);	/*左右电机打开*/
         while(1)
         {
-             if(limit_read(Limit_Left) == 1)     //左限位
+             if( Right_Flag== 1)     //右限位
             {
+                Right_Flag=0;
                 EN_First(DISEN);
                 TIM_Cmd(TIM2,DISABLE);
+                printf("%d\n",Limit_Around_Count);         //查看总脉冲数
                 Around_Sum=Limit_Around_Count/2;          //要走脉冲数
                 Limit_Around_Count=0;
                 break;
@@ -52,19 +52,20 @@ void Motor_Reset_Around(void)
                 break;
             }
         }
-}
+}//左右电机从中心到限位Around_Sum
 
-void Motor_Reset_Bunk(void)
+void Motor_Reset_Bunk(uint16_t CCR)
 {
         uint16_t Bunk_Sum; 
-        PWMSecond_config(125,72); /*开始运动*/
+        PWMSecond_config(125*8,CCR); /*开始运动*/
 		MOTOR_Second_Dirct(UP);  //向上
         EN_Second(EN);  //上下电机使能
 		TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
         while (1)
         {
-            if(limit_read(Limit_UP) == 1)     //上限位
+            if(Up_Flag == 1)     //上限位
             {
+                Up_Flag=0;
                 EN_Second(DISEN);
                 TIM_Cmd(TIM3,DISABLE);
                 Limit_Bunk_Count=0;
@@ -76,10 +77,12 @@ void Motor_Reset_Bunk(void)
         TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
         while(1)
         {
-             if(limit_read(Limit_DOWN) == 1)     //下限位
+             if(Down_Flag == 1)     //下限位
             {
+                Down_Flag=0;
                 EN_Second(DISEN);
                 TIM_Cmd(TIM3,DISABLE);
+                printf("%d\n",Limit_Bunk_Count);         //查看总脉冲数
                 Bunk_Sum=Limit_Bunk_Count/2;          //要走脉冲数
                 Limit_Bunk_Count=0;
                 break;
@@ -100,4 +103,4 @@ void Motor_Reset_Bunk(void)
                 break;
             }
         }
-}
+}//上下电机从中心到限位Bunk_Sum

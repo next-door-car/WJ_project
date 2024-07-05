@@ -102,8 +102,8 @@ void TIM2_IRQHandler(void)
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //是更新中断
 	{
 		Limit_Around_Count++;
-		if(Limit_Around_Count>=10000)
-		Limit_Around_Count=0;
+//		if(Limit_Around_Count>=80000)
+//		Limit_Around_Count=0;
 		if(First_i>=Step_First)
 		{
 			First_i=0;
