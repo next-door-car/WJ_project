@@ -5,11 +5,9 @@ uint16_t Step_First;  //左右电机脉冲总数
 uint16_t Step_Second; //上下电机脉冲总数
 uint32_t trance_x;     //左右电机坐标
 uint32_t trance_y;	  //上下电机坐标
-uint32_t Step_y;      //上下电机的总脉冲数
 int X_step;           //左右步数相关比例
 int Y_step;			  //上下步数相关比例
 uint8_t Dir=Right; //初始方向 顺时针
-int trance_x_step;   //横坐标步数
 int16_t Around_Step_count =2000; //左右电机需要走的步数
 int16_t Bunk_Step_count =160;   //上下电机需要走的步数
 int16_t Around_Step_New;      //左右新一帧
@@ -63,7 +61,7 @@ void FireControl(void)
 static ENUM_FireContorl_STATE Model_Fire_Reset(void)
 {
 	Motor_Reset_Around(400); //左右电机复位
-	Motor_Reset_Bunk(400);   //上下电机复位
+	//Motor_Reset_Bunk(400);   //上下电机复位
     while(1)
     {
         if(Fire_Start_Flag==1)

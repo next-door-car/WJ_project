@@ -31,7 +31,7 @@ void Motor_Reset_Around(uint16_t CCR)
                 Right_Flag=0;
                 EN_First(DISEN);
                 TIM_Cmd(TIM2,DISABLE);
-                printf("%d\n",Limit_Around_Count);         //查看总脉冲数
+                //printf("%d\n",Limit_Around_Count);         //查看总脉冲数
                 Around_Sum=Limit_Around_Count/2;          //要走脉冲数
                 Limit_Around_Count=0;
                 break;
@@ -57,7 +57,7 @@ void Motor_Reset_Around(uint16_t CCR)
 void Motor_Reset_Bunk(uint16_t CCR)
 {
         uint16_t Bunk_Sum; 
-        PWMSecond_config(125*8,400); /*开始运动*/
+        PWMSecond_config(125,CCR); /*开始运动*/
 		MOTOR_Second_Dirct(UP);  //向上
         EN_Second(EN);  //上下电机使能
 		TIM_Cmd(TIM3,ENABLE);	/*上下电机打开*/
@@ -82,7 +82,7 @@ void Motor_Reset_Bunk(uint16_t CCR)
                 Down_Flag=0;
                 EN_Second(DISEN);
                 TIM_Cmd(TIM3,DISABLE);
-                printf("%d\n",Limit_Bunk_Count);         //查看总脉冲数
+                //printf("%d\n",Limit_Bunk_Count);         //查看总脉冲数
                 Bunk_Sum=Limit_Bunk_Count/2;          //要走脉冲数
                 Limit_Bunk_Count=0;
                 break;

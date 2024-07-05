@@ -48,7 +48,7 @@ void PWMFirst_config(int16_t ARR_First, int16_t PSC_First)
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure); // 初始化NVIC寄存器
-    TIM_ClearFlag(TIM2,TIM_FLAG_Update);// 手动清除更新中断标志位，避免刚初始化完就近中断
+    //TIM_ClearFlag(TIM2,TIM_FLAG_Update);// 手动清除更新中断标志位，避免刚初始化完就近中断
     TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); // 使能更新中断TIM_Cmd
 	TIM_Cmd(TIM2,DISABLE);
 }
@@ -121,8 +121,8 @@ void TIM3_IRQHandler(void)
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
 	{
 		Limit_Bunk_Count++;
-		if(Limit_Bunk_Count>=10000)
-		Limit_Bunk_Count=0;
+		// if(Limit_Bunk_Count>=10000)
+		// Limit_Bunk_Count=0;
 		if(Second_i>=Step_Second)
 		{
 			Second_i=0;

@@ -23,16 +23,16 @@
 #define Motor_Second_Run Bit_SET //使能
 #define Motor_Second_DISRun Bit_RESET
 
-void DIR_config();
+void DIR_config(void);
 void MOTOR_First_Dirct(uint8_t Dirct);
 void MOTOR_Second_Dirct(uint8_t Dirct);
-void EN_config();   	
+void EN_config(void);   	
 void EN_Second(uint8_t config);
 void EN_First(uint8_t config);
-void MS_config();
-void MS_First_config();
-void MS_Second_config();
-void Water();
+void MS_config(void);
+void MS_First_config(void);
+void MS_Second_config(void);
+void Water(void);
 // void limit_init(void);
 // int limit_read(uint8_t limit);
 

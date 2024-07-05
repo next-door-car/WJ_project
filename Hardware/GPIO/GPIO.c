@@ -1,7 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "GPIO.h"
 /*EN配置*/
-void EN_config()   						
+void EN_config(void)   						
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
 	GPIO_InitTypeDef GPIO_Init_STRUCTURE;
@@ -31,7 +31,7 @@ void EN_Second(uint8_t config)
 }
 
 /*第一个电机MS配置*/
-void MS_First_config()
+void MS_First_config(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 	GPIO_InitTypeDef GPIO_Init_STRUCTURE;
@@ -49,7 +49,7 @@ void MS_First_config()
 }  
 
 /*第二个电机MS配置*/
-void MS_Second_config()
+void MS_Second_config(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
 	GPIO_InitTypeDef GPIO_Init_STRUCTURE;
@@ -78,7 +78,7 @@ void Water(void)
 }
 
 /*方向配置函数*/
-void DIR_config()
+void DIR_config(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
 	GPIO_InitTypeDef GPIO_Init_STRUCTURE;
@@ -96,7 +96,7 @@ void DIR_config()
 } 
 
 /*全局MOTOR配置函数*/
-void MS_config()
+void MS_config(void)
 {
 	GPIO_WriteBit(GPIOB,GPIO_Pin_5,Bit_SET); //MS1
 	GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET); //MS2

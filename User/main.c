@@ -61,9 +61,7 @@ void Text_UART()
 			}
 		}
 
-}
-
-void Text_v1(int8_t arr , uint8_t DIr)  //motor first
+}void Text_v1(int8_t arr , uint8_t DIr)  //motor first
 {
 	MOTOR_First_Dirct(DIr);
 	PWMFirst_config(arr, 400);
@@ -120,14 +118,17 @@ int main(void)
 	MS_config(); 
 	EN_config(); 
 	Water();
-	PWMFirst_config(125,400); /*开始运动*/ 
+   
+	
     
 	//Text_v1(125, Right);  //motor first
 
-	//Text_v2(125 , UP);  //motor second
+	
+    //Text_v2(125 , UP);  //motor second
 	while(1){
         
-	FireControl();
+//
+//        FireControl();
 
         
     }
